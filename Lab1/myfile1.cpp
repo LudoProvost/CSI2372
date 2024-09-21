@@ -17,26 +17,30 @@ int main() {
         this can be done using input/output manipulators such as the ones used below.
         Another way to display this would be to use printf with different format specifiers like %d for decimal, %o for octal and %x for hexa.
     */
-    // cout << "Enter an Integer: ";
-    // cin >> userInt;
+    cout << "\nEnter an Integer: ";
+    cin >> userInt;
 
-    // cout << "number in decimal " << dec << userInt << endl;
-    // cout << "number in octal " << oct << userInt << endl;
-    // cout << "number in hexa " << hex << userInt << endl;
+    cout << "\nnumber in decimal " << dec << userInt << endl;
+    cout << "number in octal " << oct << userInt << endl;
+    cout << "number in hexa " << hex << userInt << "\n\n";
+
+    printf("number in decimal %d\n", userInt);
+    printf("number in octal %o\n", userInt);
+    printf("number in hexa %x\n", userInt);
 
     /*  display a user given real number with  and without power of 10 with 3 significant digits
     */
-    cout << "Enter a real number: ";
+    cout << "\nEnter a real number: ";
     cin >> userReal;
 
     cout << fixed << setprecision(3) << userReal << endl;
-    cout << setprecision(16) << hexfloat << userReal << endl; 
+    cout << hexfloat << userReal << endl;
 
     /*  display a user given character as a char and as its decimal value (ASCII)
     */
-    cout << "Enter a character: ";
+    cout << "\nEnter a character: ";
     cin >> userChar;
 
     cout << userChar << endl;
-    cout << static_cast<int>(userChar) << endl; 
+    cout << static_cast<int>(userChar) << endl; // for this to print 48 when the input is H, line 25 is needed to set the io manipulator to hex (H = ASCII 72 = HEX 48)
 }
