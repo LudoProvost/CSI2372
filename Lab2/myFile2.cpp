@@ -18,7 +18,17 @@ int main() {
 	cout << endl;
 }
 
-void sort(int a[], int size)
-{
-	//YOUR CODE HERE
+void sort(int a[], int size) {
+    for (int i = 1; i < size; i++) {
+        int val = a[i]; // element to be inserted
+        int j = i - 1;
+
+        // we move all elements between index 0 and j that are greater than val 1 index to the right
+        while (a[j] > val && j >= 0) {
+            a[j + 1] = a[j];
+            j--; // decrement j
+        }
+
+        a[j + 1] = val; // insert val at the correct position
+    }
 }
