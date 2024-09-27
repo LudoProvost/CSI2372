@@ -14,7 +14,7 @@ main()
 		{
 		chain[i]=new char[size_ch];		// memory allocation
 		cin.getline(chain[i],size_ch,'\t');	//seizure of the string
-		cin.ignor(INT_MAX,'\n');		// ignore line return
+		cin.ignore(INT_MAX,'\n');		// ignore line return
 		}
 
 	display(chain,nb_ch);					
@@ -25,7 +25,7 @@ main()
 	
 		switch(choice)
 			{
-			case '1':	diplay(chain,nb_ch);
+			case '1':	display(chain,nb_ch);
 				break;
 			case '2':	replace(chain,nb_ch,size_ch);	
 				break;
