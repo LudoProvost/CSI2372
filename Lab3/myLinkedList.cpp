@@ -62,23 +62,23 @@ int main()
 **/
 Evaluation* add(Evaluation* p, int& number)
 {
-    cout << "\tEntering the item from the chained list.\n\n"; // added to fit example output
+    cout << "\n\tEntering the item from the chained list.\n\n"; // added to fit example output
 
 	Evaluation* new_node = new Evaluation; // create new node that will be added
     Evaluation* current_p = p;
 
     // use user input for new student name and grade
-	char student[capacity];
+	string student_name; // need to use string to use getline
 	int grade;
 
     cout << "Enter the student name: ";
-    // cin >> student;
-	std::getline(std::cin, student);
+	cin.ignore(); // ignore newline
+	getline(cin, student_name);
 
     cout << "Enter the grade: ";
     cin >> grade;
 
-    strcpy(new_node->student, student);
+    strcpy(new_node->student, student_name.c_str()); // use c_str() to convert string to char array
 	new_node->grade = grade;
 	new_node->next = nullptr;
 
@@ -169,6 +169,7 @@ int average(Evaluation* p, int const& nbre)
         p = p->next; // move through linked list
     }
 
+	// print average grade and return 1 since no errors came up
     cout << "The average grade is: " << (total_grade / nbre) << endl;
     return 1;
 }

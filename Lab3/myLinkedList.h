@@ -1,7 +1,7 @@
 /*Ex2 - a3 CSI2372A*/
 
 #include <iostream>
-#include <process.h>
+#include <sstream>
 #include <string.h>
 #include <string>
 using namespace std;
