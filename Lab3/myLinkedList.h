@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <process.h>
+#include <string.h>
+#include <string>
 using namespace std;
 const int capacity = 20;	// size string
 
