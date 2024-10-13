@@ -64,11 +64,11 @@ char menu(void)
 /********************************************************************************/
 /*Function display which displays the strings*/
 /********************************************************************************/
-void display(char* tab[], int const& nbre)
-{
-	//YOUR CODE 
+void display(char* tab[], int const& nbre){
+	for (int i = 0 ; i < nbre ; i++){
+		cout << "The string " << i << " is: " << tab[i] << endl; 
+	}
 }
-
 
 /********************************************************************************
 *
@@ -79,23 +79,38 @@ the maximum size of the strings "size"
 *
 ********************************************************************************/
 
-void replace(char* tab[], int const& nbre, int const& size)
-{
-	int numero;		//the string to modify
+void replace(char* tab[], int const& nbre, int const& size){
+	int numero;	//the string to modify
 
 	cout << endl << "Enter the string number to modify: ";
 	cin.ignore(INT_MAX,'\n');
 	cin >> numero;
 
+	if (numero >= 0 && numero < nbre) { // Check that the number is < 5
+		char newString[size];
+		cout << "Enter the new string: ";
+		cin.ignore(INT_MAX, '\n');
+		cin.getline(newString, size);
+		strncpy(tab[numero], newString, size); // Replace the old string with a new one
+	}else{
+		cout << "Invalid index entered." << endl;
+	}
 
-	//YOUR CODE 
-}
+ }
 
 /********************************************************************************/
 /*Function sort to sort strings */
 /********************************************************************************/
-void sort(char* tab[], int const& nbre)
-{
-	// YOUR CODE 
-}
+void sort(char* tab[], int const& nbre){
 
+	for (int i = 1; i < nbre; ++i) {
+        char* key = tab[i];
+        int j = i - 1;
+        
+        while (j >= 0 && strcmp(tab[j], key) > 0) { //Use strcmp to return address of the largest string
+            tab[j + 1] = tab[j];
+            --j;
+        }
+        tab[j + 1] = key;
+    }
+}
