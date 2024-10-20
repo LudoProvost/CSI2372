@@ -11,8 +11,17 @@ struct Card{
 	Face face;
 };
 
-int main(){
+int main(){ 
 	Card game[32];
-	//YOUR CODE HERE
-}
+	int k = 0;
 
+	for(int i = 0; i < 4; ++i){ // For loop that populates struct Card with 32 combinations of cards with different colors and faces
+		for(int j = 0; j < 8; ++j){ 
+			if(k < 32) { // Prevent out of bounds
+				game[k].color = static_cast<Color>(i);
+				game[k].face = static_cast<Face>(j);
+				k++; // Increments the count by one to keep track of the indicie 
+			}	
+		}	
+	}
+}
