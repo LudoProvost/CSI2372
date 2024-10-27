@@ -108,7 +108,14 @@ int* SetInt::tabElem() {
 }
 
 bool SetInt::containsIn(int n, int& pos) {
-    return (elem[pos] == n); // return the value of the comparison between n and the value at pos in elem
+    // parse elem until you find a value matching n
+    for (int i = 0; i < size; i++) {
+        if (elem[i] == n) {
+            pos = i;    // set pos reference to the index where the matching value was found
+            return true;
+        }
+    }
+    return false;
 }
 
 int main() {
