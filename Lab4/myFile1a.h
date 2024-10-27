@@ -7,7 +7,7 @@ class Course {
     int num;
     int hours;
 public:
-    Course(int n, int h) : num(n), hours(h) {} // Contructor
+    Course(int n, int h) : num(n), hours(h){} // Contructor
     int getNum() const {return num;} // Return the number
     int getHours() const {return hours;} // Return the hours
 };
