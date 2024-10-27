@@ -61,7 +61,8 @@ bool Student::addCourse(Course* c, int name){
 	// Check if we've exceeded the max number of courses
 	if (nbCourses >= maxCourses){
 		return false;
-	} // If not, add the course as the next pointer in List_courses
+	} 
+	// If not, add the course as the next pointer in List_courses
 	List_courses[nbCourses] = c;
 	List_grades[nbCourses] = name;
 	nbCourses++;
