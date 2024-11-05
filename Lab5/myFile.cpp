@@ -100,20 +100,62 @@ Card CardsSet::lookIn(int no) {
 	return set[no - 1];
 }
 
-//TODO: this function
-int Player::play() {
 
+int Player::play() {
+	Card card;
+	char choice; 
+	bool draw = !computer;
+	int points = 0;
+
+	
+	do{
+		card = packet.take(); // Put a card in the hand
+		inHand.put(card);
+
+		points = countPoints(); // Sum the players hand value
+		cout << "Your score is " << points << " points" << endl;
+
+		if(points >= 21) { // If its 21 or over end the turn
+			return points;
+		}
+
+		// If the human is playing, prompt for more cards, else the computer will draw until it reaches a hand of 17 points
+		if(!computer){
+			cout << "Any additional card?";
+			cin >> choice;
+			draw = (choice == 'y');
+		}else{
+			draw = (points < 17); // Safe value for the computer to stop drawing cards
+		}
+	}while(draw);
+	return countPoints();
 }
 
-//TODO: this function
-int Player::countPoints() {
 
+int Player::countPoints() {
+	int points = 0, ace = 0, val = 0;
+
+	// Look through the hand and sum up the values of each card face
+	for (int i = 0; i < inHand.numCards(); ++i) {
+		val = inHand.lookIn(i+1).value();
+		if (val == 1){
+			points += 14; ace++;
+		}else {
+			points += (val > 10) ? 10 : val;
+		}
+	}
+
+	// Check if there are any aces and remove 13 * # of aces from the total points if you're over 21
+	if(points > 21 && ace > 0){
+		for (int j = 0; j < ace; j++){
+			points -= 13;
+		}
+	}
+	return points;
 }
 
 int main() {
 	CardsSet packet;
-	Player you(packet, false);
-	Player me(packet, true);
 	char answer[3];
 	bool continuous = true;
 	cout << "Hello! " << endl;
@@ -126,7 +168,8 @@ int main() {
 		{
 			packet.novSet();
 			packet.shuffle();
-			packet.take();
+			Player you(packet, false);
+			Player me(packet, true);
 			int p1 = you.play();
 			if (p1 > 21) {
 				cout << "You lost! " << endl;
