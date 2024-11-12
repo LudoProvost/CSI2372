@@ -7,12 +7,13 @@ class Card {
         string name;
     public:
         Card(string name) : name(name) {}
+        
         virtual int getCardsPerCoin(int coins);
         virtual string getName();
         virtual void print(ostream& out);
 
-        friend ostream& operator<<(ostream& out, Card& card) {
-            card.print(out);
+        friend ostream& operator<<(ostream& out, Card& c) {
+            c.print(out);
             return out;
         }
 };
