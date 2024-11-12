@@ -17,4 +17,4 @@ class DiscardPile: public vector<Card*> {
 
         DiscardPile& operator+=(Card* c);
         friend ostream& operator<<(ostream& out, DiscardPile& dp);
-}
+};

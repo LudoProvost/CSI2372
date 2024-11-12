@@ -23,15 +23,14 @@ void DiscardPile::print(ostream& out) {
     for (int i = 0; i < this->size(); i++) {
         out << *(this->at(i)); //TODO: not sure if this works. alternative: out << d.at(i)->getName()[0] << endl;
     }
-    return out;
 }
 
 DiscardPile& DiscardPile::operator+=(Card* c) {
-    this->push_back();
+    this->push_back(c);
     return *this;
 }
 
-ostream& DiscardPile::operator<<(ostream& out, DiscardPile& dp) {
+ostream& operator<<(ostream& out, DiscardPile& dp) {
     // edge case, dp empty
     if (dp.size() == 0) {
         return out;

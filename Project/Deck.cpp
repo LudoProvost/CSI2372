@@ -53,7 +53,7 @@ Deck& Deck::operator=(const Deck& d) {
     return *this;
 }
 
-ostream& Deck::operator<<(ostream& out, Deck& d) {
+ostream& operator<<(ostream& out, Deck& d) {
             
     for (int i = 0; i < d.size(); i++) {
         out << *d.at(i); //TODO: not sure if this works. alternative: out << d.at(i)->getName()[0] << endl;

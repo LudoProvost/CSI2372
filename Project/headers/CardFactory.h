@@ -13,4 +13,4 @@ class CardFactory {
     public:
         static CardFactory* getFactory();
         Deck getDeck();
-}
+};
