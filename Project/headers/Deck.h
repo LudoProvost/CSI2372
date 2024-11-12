@@ -12,17 +12,11 @@ class Deck: public vector<Card*> {
         Card* draw();
         
         Deck() : vector<Card*>() {}; // constructor
-        Deck(istream&, const CardFactory*);  // istream constructor
-        Deck(const Deck&); // copy-constructor
+        Deck(istream& in, const CardFactory* cf);  // istream constructor
+        Deck(const Deck& d); // copy-constructor
         ~Deck(); // destructor
         
-        Deck& operator=(const Deck&); // assignment operator
+        Deck& operator=(const Deck& d); // assignment operator
         
-        friend ostream& operator<<(ostream& out, Deck& d) {
-            
-            for (int i = 0; i < this.size(); i++) {
-                out << *d.at(i); //TODO: not sure if this works. alternative: out << d.at(i)->getName()[0] << endl;
-            }
-            return out;
-        }
+        friend ostream& operator<<(ostream& out, Deck& d);
 }
