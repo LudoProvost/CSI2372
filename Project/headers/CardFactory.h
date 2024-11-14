@@ -1,3 +1,5 @@
+#ifndef CARDFACTORY_H
+#define CARDFACTORY_H
 #include <random>
 #include <algorithm>
 using namespace std;
@@ -14,3 +16,5 @@ class CardFactory {
         static CardFactory* getFactory();
         Deck getDeck();
 };
+
+#endif

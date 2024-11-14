@@ -1,3 +1,5 @@
+#ifndef PLAYER_H
+#define PLAYER_H
 #include <iostream>
 #include <cstdlib>
 using namespace std;
@@ -10,3 +12,5 @@ using namespace std;
 class Player {
 
 };
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef TABLE_H
+#define TABLE_H
 #include "Player.h"
 #include "Deck.h"
 #include "DiscardPile.h"
@@ -24,3 +26,5 @@ class Table {
 
         friend ostream& operator<<(ostream& out, Table& t);
 };
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef DECK_H
+#define DECK_H
 #include <vector>
 #include <iostream>
 #include <cstdlib>
@@ -5,7 +7,7 @@
 using namespace std;
 
 #include "Card.h"
-class CardFactory; // so that Deck doesnt include itself
+#include "CardFactory.h"
 
 class Deck: public vector<Card*> {
     public:
@@ -20,3 +22,5 @@ class Deck: public vector<Card*> {
         
         friend ostream& operator<<(ostream& out, Deck& d);
 };
+
+#endif

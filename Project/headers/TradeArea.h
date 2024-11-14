@@ -1,3 +1,5 @@
+#ifndef TRADEAREA_H
+#define TRADEAREA_H
 #include <iostream>
 #include <cstdlib>
 #include <list>
@@ -10,3 +12,5 @@ using namespace std;
 class TradeArea {
 
 };
+
+#endif

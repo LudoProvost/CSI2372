@@ -1,3 +1,5 @@
+#ifndef DISCARDPILE_H
+#define DISCARDPILE_H
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -18,3 +20,5 @@ class DiscardPile: public vector<Card*> {
         DiscardPile& operator+=(Card* c);
         friend ostream& operator<<(ostream& out, DiscardPile& dp);
 };
+
+#endif

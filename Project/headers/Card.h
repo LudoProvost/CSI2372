@@ -1,3 +1,5 @@
+#ifndef CARD_H
+#define DESK_H
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -65,3 +67,5 @@ class garden: public virtual Card {
         garden() : Card("garden") {}
         int getCardsPerCoin(int coins);
 };
+
+#endif
