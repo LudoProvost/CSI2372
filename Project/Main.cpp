@@ -24,8 +24,35 @@ int main() {
     CardFactory* cf = CardFactory::getFactory();
     Table* table = new Table(p1, p2, d, dp, ta, cf);
 
+    // shuffle deck
+    *d = cf->getDeck();
+
     // draw 5 cards for each player
     for (int i = 0; i < 5; i++) {
+        p1->drawCard(d->draw());
+        p2->drawCard(d->draw());
+    }
+
+    // game loop
+    while (d->size() != 0) {
+        // set current player and manage turns
+        Player* currentp;
+        if (table->getTurn()) {
+            currentp = p1;
+        } else {
+            currentp = p2;
+        }
+        table->changeTurn(); // change turn, next game loop iteration will be player2's turn
+
+        // display Table
+        cout << *table;
+
+        // player draws top card from Deck
+        currentp->drawCard(d->draw());
+
+        // chain or discard cards from the trade area
+        //TODO: once tradearea is implemented. can the player selectively decide which card to chain and discard?
+
         
     }
 }

@@ -21,6 +21,8 @@ class Table {
         ~Table();
         
         bool win(string& playerName);
+        bool getTurn();
+        void changeTurn();
         void printHand(bool allPlayers);
         Deck getDeck();
 

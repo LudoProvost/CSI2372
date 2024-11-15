@@ -61,3 +61,7 @@ ostream& operator<<(ostream& out, const Player& p) {
     }
 
 }
+
+void Player::drawCard(Card* c) {
+    *hand += c;
+}

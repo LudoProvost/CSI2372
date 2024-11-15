@@ -25,6 +25,7 @@ class Player {
         int getNumChains();
         void buyThirdChain();
         void printHand(ostream& out, bool allCards);
+        void drawCard(Card* c);
 
         Chain& operator[](int i);
         Player& operator+=(int n);

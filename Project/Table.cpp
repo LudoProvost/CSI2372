@@ -67,3 +67,12 @@ ostream& operator<<(ostream& out, Table& t) {
     out << "Trading area:\n" << *(t.tradeArea);
     return out;
 }
+
+bool Table::getTurn() {
+    return isPlayer1Turn;
+}
+
+// inverses the player's turn
+void Table::changeTurn() {
+    isPlayer1Turn = !isPlayer1Turn;
+}
