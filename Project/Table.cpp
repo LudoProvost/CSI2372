@@ -8,6 +8,7 @@ Table::Table(Player* p1, Player* p2, Deck* d, DiscardPile* dp, TradeArea* ta, Ca
     discardPile = dp;
     tradeArea = ta;
     cardFactory = cf;
+    isPlayer1Turn = true;
 }
 
 //TODO: this function
@@ -53,12 +54,12 @@ void Table::printHand(bool allPlayers) {
 
 Deck Table::getDeck() {
     if (deck == nullptr) {
-        deck = cf->getDeck();
+        *deck = cardFactory->getDeck();
     }
     return *deck;
 }
 
-ostream& Table::operator<<(ostream& out, Table& t) {
+ostream& operator<<(ostream& out, Table& t) {
     out << "Player 1:\n" << *(t.player1);
     out << "Player 2:\n" << *(t.player2);
     // out << "Deck:\n" << *(t.deck);

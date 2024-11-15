@@ -6,3 +6,5 @@
 #include "Player.h"
 #include "Table.h"
 #include "TradeArea.h"
+
+#include <string.h>
