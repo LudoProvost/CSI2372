@@ -20,8 +20,9 @@ Card* DiscardPile::top() {
 }
 
 void DiscardPile::print(ostream& out) {
-    for (int i = 0; i < this->size(); i++) {
-        out << *(this->at(i)); //TODO: not sure if this works. alternative: out << d.at(i)->getName()[0] << endl;
+    vector<Card*>::iterator it;
+    for (it = this->begin(); it != this->end(); it++) {
+        out << *it; //TODO: not sure if this works. alternative: out << it->getName()[0] << endl;
     }
 }
 
