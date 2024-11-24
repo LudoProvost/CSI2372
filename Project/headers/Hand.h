@@ -1,12 +1,17 @@
 #ifndef HAND_H
 #define HAND_H
+#include <iostream>
+#include <queue>
+using namespace std;
+
+#include "Card.h"
+#include "CardFactory.h"
 
 class Hand {
     private:
-
+        deque<Card*> cardDeque; // use queue/deque to manage cards in Hand (FIFO)
     public:
         Hand(istream& in, const CardFactory* cf);
-        Hand();  //TODO:
 
         Card* play();
         Card* top();
