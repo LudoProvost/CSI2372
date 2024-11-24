@@ -1,6 +1,12 @@
 #include "headers/Main.h"
 using namespace std;
 
+/**
+ * @brief sets the names of players passed by reference
+ * @param player1name
+ * @param player2name
+ * 
+ */
 void getPlayerNames(string& player1Name, string& player2Name) {
     cout << "\nenter player 1's name: ";
     cin >> player1Name;

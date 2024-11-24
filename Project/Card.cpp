@@ -1,14 +1,30 @@
 #include "headers/Card.h"
 using namespace std;
 
+/**
+ * @brief getter for name of card
+ * @return string
+ * 
+ */
 string Card::getName() {
     return name;
 }
 
+/**
+ * @brief print first letter of name of card
+ * @param out
+ * 
+ */
 void Card::print(ostream& out) {
     out << getName()[0];
 }
 
+/**
+ * @brief returns number of cards for a given number of coins for Blue cards
+ * @param coins
+ * @return int
+ * 
+ */
 int Blue::getCardsPerCoin(int coins) {
     int numCards;
     switch(coins) {
@@ -25,6 +41,12 @@ int Blue::getCardsPerCoin(int coins) {
     }
 }
 
+/**
+ * @brief returns number of cards for a given number of coins for Chili cards
+ * @param coins
+ * @return int
+ * 
+ */
 int Chili::getCardsPerCoin(int coins) {
     int numCards;
     switch(coins) {
@@ -41,6 +63,12 @@ int Chili::getCardsPerCoin(int coins) {
     }
 }
 
+/**
+ * @brief returns number of cards for a given number of coins for Stink cards
+ * @param coins
+ * @return int
+ * 
+ */
 int Stink::getCardsPerCoin(int coins) {
     int numCards;
     switch(coins) {
@@ -57,6 +85,12 @@ int Stink::getCardsPerCoin(int coins) {
     }
 }
 
+/**
+ * @brief returns number of cards for a given number of coins for Green cards
+ * @param coins
+ * @return int
+ * 
+ */
 int Green::getCardsPerCoin(int coins) {
     int numCards;
     switch(coins) {
@@ -73,6 +107,12 @@ int Green::getCardsPerCoin(int coins) {
     }
 }
 
+/**
+ * @brief returns number of cards for a given number of coins for soy cards
+ * @param coins
+ * @return int
+ * 
+ */
 int soy::getCardsPerCoin(int coins) {
     int numCards;
     switch(coins) {
@@ -89,6 +129,12 @@ int soy::getCardsPerCoin(int coins) {
     }
 }
 
+/**
+ * @brief returns number of cards for a given number of coins for black cards
+ * @param coins
+ * @return int
+ * 
+ */
 int black::getCardsPerCoin(int coins) {
     int numCards;
     switch(coins) {
@@ -105,6 +151,12 @@ int black::getCardsPerCoin(int coins) {
     }
 }
 
+/**
+ * @brief returns number of cards for a given number of coins for Red cards
+ * @param coins
+ * @return int
+ * 
+ */
 int Red::getCardsPerCoin(int coins) {
     int numCards;
     switch(coins) {
@@ -121,7 +173,12 @@ int Red::getCardsPerCoin(int coins) {
     }
 }
 
-//TODO: unsure if should return -1 for invalid chain lenghts (case 1 and 4).
+/**
+ * @brief returns number of cards for a given number of coins for garden cards
+ * @param coins
+ * @return int
+ * 
+ */
 int garden::getCardsPerCoin(int coins) {
     int numCards;
     switch(coins) {

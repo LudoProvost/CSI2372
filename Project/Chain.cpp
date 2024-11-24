@@ -1,14 +1,28 @@
 #include "headers/Chain.h"
 using namespace std;
 
+/**
+ * @brief returns number of cards in the chain
+ * @return int
+ * 
+ */
 int Chain_Base::getNumCard() const {
     return chain.size();
 }
 
+/**
+ * @brief returns the type of the chain
+ * @return string
+ * 
+ */
 string Chain_Base::getChainType() const {
     return type;
 }
 
+/**
+ * @brief constructor for Chain<T> class
+ * 
+ */
 template <typename T>
 Chain<T>::Chain() {
     T card; // create card item of type T to get string name of T
@@ -21,6 +35,11 @@ Chain<T>::Chain(istream& in, const CardFactory* cf) {
 
 }
 
+/**
+ * @brief counts number of cards in current chain and returns number of coins its worth
+ * @return int
+ * 
+ */
 template <typename T>
 int Chain<T>::sell() {
     T cardType;
@@ -44,6 +63,12 @@ int Chain<T>::sell() {
     return 0;
 }
 
+/**
+ * @brief adds the card passed to the function to the chain
+ * @param c
+ * @return Chain<T>&
+ * 
+ */
 template <typename T>
 Chain<T>& Chain<T>::operator+=(Card* c) {
     
@@ -51,7 +76,7 @@ Chain<T>& Chain<T>::operator+=(Card* c) {
 
     // throw type exception if type of c does not match T
     //TODO: idk if this needs a return
-    if (!(c->getName()).compare(getChainType())) {
+    if (c->getName() != getChainType()) {
         throw runtime_error("IllegalType");
     }
 
@@ -59,6 +84,13 @@ Chain<T>& Chain<T>::operator+=(Card* c) {
     return *this;
 }
 
+/**
+ * @brief insertion operator to display chain
+ * @param out
+ * @param chain
+ * @return ostream&
+ * 
+ */
 ostream& operator<<(ostream& out, const Chain<Card*>& chain) {
     // print full name and tab
     out << chain.getChainType() << "\t";

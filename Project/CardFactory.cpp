@@ -3,6 +3,11 @@ using namespace std;
 
 CardFactory* CardFactory::inst = nullptr;
 
+/**
+ * @brief creates and returns an instance of CardFactory
+ * @return CardFactory*
+ * 
+ */
 CardFactory* CardFactory::getFactory() {
     if (inst == nullptr) {
         inst = new CardFactory();
@@ -10,7 +15,9 @@ CardFactory* CardFactory::getFactory() {
     return inst;
 }
 
-
+/**
+ * @brief constructor for CardFactory class
+ */
 CardFactory::CardFactory() {
     deck = new Deck();
 
@@ -57,6 +64,11 @@ CardFactory::CardFactory() {
     }
 }
 
+/**
+ * @brief returns deck
+ * @return Deck
+ * 
+ */
 Deck CardFactory::getDeck() {
     // use mersenne twister generator for randomness 
     random_device rd;

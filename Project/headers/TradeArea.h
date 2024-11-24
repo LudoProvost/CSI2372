@@ -10,7 +10,18 @@ using namespace std;
 
 //TODO: this class
 class TradeArea {
+    private:
+        list<Card*> cardList;
+    public:
+        TradeArea(istream&, const CardFactory&);
 
+        bool legal(Card* c);
+        Card* trade(string s);
+        int numCards() const;
+
+        TradeArea& operator+=(Card* c);
+
+        friend ostream& operator<<(ostream& out, const TradeArea& ta);
 };
 
 #endif
