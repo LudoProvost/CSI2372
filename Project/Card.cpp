@@ -6,7 +6,7 @@ string Card::getName() {
 }
 
 void Card::print(ostream& out) {
-    out << getName()[0] << endl;
+    out << getName()[0];
 }
 
 int Blue::getCardsPerCoin(int coins) {

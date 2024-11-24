@@ -11,6 +11,7 @@ class Hand {
     private:
         deque<Card*> cardDeque; // use queue/deque to manage cards in Hand (FIFO)
     public:
+        Hand() {}
         Hand(istream& in, const CardFactory* cf);
 
         Card* play();

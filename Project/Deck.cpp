@@ -58,7 +58,7 @@ ostream& operator<<(ostream& out, Deck& d) {
 
     vector<Card*>::iterator it;
     for (it = d.begin(); it != d.end(); it++) {
-        out << *it; //TODO: not sure if this works. alternative: out << it->getName()[0] << endl;
+        out << *it << " "; //TODO: not sure if this works. alternative: out << it->getName()[0] << endl;
     }
     return out;
 }

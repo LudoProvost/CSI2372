@@ -4,7 +4,7 @@ using namespace std;
 Player::Player(string& n) {
     name = n;
     coins = 0;
-    //TODO: init vector of chains
+    hand = new Hand;
     boughtThirdChain = false;
 }
 
@@ -13,55 +13,61 @@ Player::Player(istream& in, const CardFactory* cf) {
 
 }
         
-string Player::getName() {
+string Player::getName() const {
     return name;
 }
 
-int Player::getNumCoins() {
+int Player::getNumCoins() const {
     return coins;
 }
 
-int Player::getMaxNumChains() {
+int Player::getMaxNumChains() const {
     return (boughtThirdChain) ? 3 : 2;
 }
 
-//TODO: this function once chains is implemented
-int Player::getNumChains() {
-
+int Player::getNumChains() const {
+    return chains.size();
 }
 
-//TODO: this function once chains is implemented
 void Player::buyThirdChain() {
+    
+    // edge case, player does not have enough coins
+    if (coins < 3) {
+        throw runtime_error("NotEnoughCoins");
+    }
 
+    boughtThirdChain = true;
 }
 
 void Player::printHand(ostream& out, bool allCards) {
     if (allCards) {
-        out << *(hand);
+        out << *(hand); // print all cards of the player's hand
     } else {
-        out << *(hand->top());
+        out << *(hand->top()); // print top card of player's hand
     }
 }
 
-Chain& Player::operator[](int i) {
-    //TODO: once chain is implemented
+Chain_Base& Player::operator[](int i) {
+    return *(chains.at(i)); // return chain at index i
 }
 
 Player& Player::operator+=(int n) {
-    coins += n;
+    coins += n; // add n coins
     return *this;
 }
 
 ostream& operator<<(ostream& out, const Player& p) {
-    out << p.name << "\t\t" << p.coins << " coins\n";
+    
+    // print name and number of coins
+    out << p.name << "\t" << p.coins << " coins\n";
 
     // print all of the player's chains
-    for (int i = 0; i < 2 + p.boughtThirdChain; i++) {
-        out << ;//TODO: once Chain is implemented
+    for (int i = 0; i < p.getNumChains(); i++) {
+        out << p.chains.at(i) << endl;
     }
-
+    return out;
 }
 
 void Player::drawCard(Card* c) {
-    *hand += c;
+    *hand += c; // add card c to player's hand
 }

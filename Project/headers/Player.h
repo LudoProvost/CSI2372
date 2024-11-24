@@ -13,21 +13,23 @@ class Player {
         std::string name;
         int coins;
         Hand* hand;
-        //TODO: add vector of chains once Chain is implemented.
+        vector<Chain_Base*> chains;
         bool boughtThirdChain;
     public:
         Player(std::string& n);
         Player(std::istream& in, const CardFactory* cf);
         
-        std::string getName();
-        int getNumCoins();
-        int getMaxNumChains();
-        int getNumChains();
+        std::string getName() const;
+        int getNumCoins() const;
+        int getMaxNumChains() const;
+        int getNumChains() const;
         void buyThirdChain();
         void printHand(ostream& out, bool allCards);
         void drawCard(Card* c);
+        //TODO: add logic to allow player to play a card
+        //TODO: right now, there is no logic to manage chains (play a card to a chain, verify # chain, etc)
 
-        Chain& operator[](int i);
+        Chain_Base& operator[](int i);
         Player& operator+=(int n);
         friend ostream& operator<<(ostream& out, const Player& p);
 };

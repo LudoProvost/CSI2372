@@ -36,7 +36,7 @@ ostream& operator<<(ostream& out, const Hand& h) {
     
     // not sure if auto works here, but "deque<Card*>::iterator it;" wasn't working
     for (auto it = h.cardDeque.begin(); it != h.cardDeque.end(); it++) {
-        out << *it; //TODO: not sure if this works. alternative: out << it->getName()[0] << endl;
+        out << *it << " "; //TODO: not sure if this works. alternative: out << it->getName()[0] << endl;
     }
     return out;
 }
