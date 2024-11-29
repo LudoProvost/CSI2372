@@ -13,10 +13,10 @@ class TradeArea {
     private:
         list<Card*> cardList;
     public:
-        TradeArea(istream&, const CardFactory&);
+        TradeArea(istream&, const CardFactory*);
 
-        bool legal(Card* c);
-        Card* trade(string s);
+        bool legal(Card* c) const;
+        Card* trade(string s);// TODO: make const? Card* trade(const string& s);
         int numCards() const;
 
         TradeArea& operator+=(Card* c);
