@@ -56,8 +56,32 @@ int main() {
         // player draws top card from Deck
         currentp->drawCard(d->draw());
 
-        // chain or discard cards from the trade area
+        // ask player if they want to trade
+        cout << "Do you want to trade a card from the trade area? (y/n)";
+        string response;
+        cin >> response;
+
+        // TODO: review the logic below
+        // TODO: add way to chain or discard cards from the tradea area
+        // if player wants to trade, try to find the card they want to trade for and throw an error otherwise
+        if (response == "yes") {
+            cout << "Enter the name of the card you want to trade: ";
+            string cardName;
+            cin >> cardName;
+
+            try { 
+                
+                Card* tradedCard = ta->trade(cardName);  
+                currentp->drawCard(tradedCard);  // add the traded card to the player's hand
+                cout << "You traded for " << cardName << endl;
+            } catch (const invalid_argument& a) {
+                cout << a.what() << endl; // catch invalid arguments
+            }
+        }
+
+
         //TODO: once tradearea is implemented. can the player selectively decide which card to chain and discard?
+
 
         
     }
