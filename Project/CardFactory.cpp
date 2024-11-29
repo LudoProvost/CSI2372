@@ -77,3 +77,29 @@ Deck CardFactory::getDeck() {
 
     return *deck;
 }
+
+/**
+ * @brief returns a new card type matching the string value passed through 
+ * @param cardName
+ * @return Card*
+ * 
+ */
+Card* CardFactory::createCard(const string& cardName) const {
+    if (cardName == "Blue") {
+        return new Blue;
+    } else if (cardName == "Chili") {
+        return new Chili;
+    } else if (cardName == "Stink") {
+        return new Stink;
+    } else if (cardName == "Green") {
+        return new Green;
+    } else if (cardName == "soy") {
+        return new soy;
+    } else if (cardName == "black") {
+        return new black;
+    } else if (cardName == "Red") {
+        return new Red;
+    } else if (cardName == "garden") {
+        return new garden;
+    } 
+}

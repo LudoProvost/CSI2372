@@ -15,6 +15,7 @@ class CardFactory {
     public:
         static CardFactory* getFactory();
         Deck getDeck();
+        Card* createCard(const string& cardName) const;
 };
 
 #endif
