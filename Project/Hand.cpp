@@ -1,10 +1,17 @@
+
 #include "headers/Hand.h"
 using namespace std;
 
-
-//TODO: this function
+// TODO: add comments for this constructor
 Hand::Hand(istream& in, const CardFactory* cf) {
+    string CardType;
 
+    // Enter the stream, then create a new card matching the name of the card provided
+    while (in >> CardType){ 
+
+        Card* newCard = cf->createCard(CardType); // could also declare newCard as a nullptr earlier on
+        cardDeque.push_back(newCard); // add the new card to the players hand
+    }
 }
 
 /**
@@ -61,10 +68,20 @@ Card* Hand::operator[](int i) {
  * @return ostream&
  */
 ostream& operator<<(ostream& out, const Hand& h) {
-    
-    // not sure if auto works here, but "deque<Card*>::iterator it;" wasn't working
-    for (auto it = h.cardDeque.begin(); it != h.cardDeque.end(); it++) {
-        out << **it << " "; //TODO: not sure if this works. alternative: out << it->getName()[0] << endl;
+    for (const auto& card : h.cardDeque) { 
+        // TODO: is this an alternative to the method below?
+        card -> print(out); // loop over each card stored in cardDeque and use Card's built-in print method
+        out << " ";
     }
+    out << endl;
     return out;
+
+    /*
+    * // not sure if auto works here, but "deque<Card*>::iterator it;" wasn't working
+    * for (auto it = h.cardDeque.begin(); it != h.cardDeque.end(); it++) {
+    *     out << **it << " "; //TODO: not sure if this works. alternative: out << it->getName()[0] << endl;
+    * }
+    * return out;
+    */
+
 }
