@@ -43,9 +43,11 @@ Card* TradeArea::trade(string s) {
         if ((*it)->getName() == s) {
             c = *it;
             cardList.erase(it); //TODO: unsure if this works
-            return c; 
+            break; // c will get returned outside of loop in case card of type s is never found.
         }
     }
+
+    return c;
 }
 
 /**
