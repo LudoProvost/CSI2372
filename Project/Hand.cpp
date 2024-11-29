@@ -62,13 +62,21 @@ Card* Hand::operator[](int i) {
 }
 
 /**
+ * @brief getter for cardDeque
+ * @return const deque<Card*>&
+ */
+const deque<Card*>& Hand::getCardDeque() const {
+    return cardDeque;
+}
+
+/**
  * @brief insertion operator to display hand
  * @param out
  * @param h
  * @return ostream&
  */
 ostream& operator<<(ostream& out, const Hand& h) {
-    for (const auto& card : h.cardDeque) { 
+    for (const auto& card : h.getCardDeque()) { 
         // TODO: is this an alternative to the method below?
         card -> print(out); // loop over each card stored in cardDeque and use Card's built-in print method
         out << " ";
