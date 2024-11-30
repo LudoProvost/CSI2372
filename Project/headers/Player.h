@@ -26,8 +26,9 @@ class Player {
         void buyThirdChain();
         void printHand(ostream& out, bool allCards);
         void drawCard(Card* c);
-        //TODO: add logic to allow player to play a card
-        //TODO: right now, there is no logic to manage chains (play a card to a chain, verify # chain, etc)
+        void play();
+        Chain_Base* createChain(Card* c);
+        int tradeChain(); //TODO:
 
         Chain_Base& operator[](int i);
         Player& operator+=(int n);

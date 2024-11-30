@@ -11,6 +11,12 @@ Player::Player(string& n) {
     coins = 0;
     hand = new Hand;
     boughtThirdChain = false;
+
+    //init chain vector
+    for (int i = 0; i < 2 + boughtThirdChain; i++) {
+        Chain_Base* temp = nullptr;
+        chains.push_back(temp);
+    }
 }
 
 //TODO: this function
@@ -129,4 +135,107 @@ ostream& operator<<(ostream& out, const Player& p) {
  */
 void Player::drawCard(Card* c) {
     *hand += c; // add card c to player's hand
+}
+
+/**
+ * @brief chains the player's top-most card. also attempts to sell all chains
+ * 
+ */
+void Player::play() {
+    
+    //edge case, empty hand
+    if (hand->getCardDeque().empty()) {
+        return;
+    }
+
+    int emptyChainIdx = -1;
+    Card* topCard = hand->top();
+
+    // find and add top card to existing chain
+    for (int i = 0; i < 2 + boughtThirdChain; i++) {
+
+        auto& chain = chains[i];
+
+        // update emptyChainFound if chain is empty
+        if (chain == nullptr) {
+            emptyChainIdx = i;
+            continue; // go to next chain
+        }
+
+        // condition to find compatible chain
+        if (topCard->getName() == chain->getChainType()) {
+            chain->operator+=(hand->play()); // remove top card from hand using play() and add it to chain
+        }
+    }
+
+    // condition to check if all chains are used
+    if (emptyChainIdx == -1) {
+        // no chain matching top card found and max number of chains reached
+        // attempt to sell a chain 
+        emptyChainIdx = tradeChain(); // will be set to the index of the chain sold (ready to be replaced) or -1 if no tradable chain
+    }
+    
+    // no chain found, create new chain at empty chain
+    if (emptyChainIdx != -1) {
+        auto* newChain = createChain(topCard);
+        newChain->operator+=(hand->play()); // add top card to chain
+        chains[emptyChainIdx] = newChain; // add new chain to chains
+    } else {
+        cout << "could not play top card.";
+    }
+}
+
+/**
+ * @brief creates a chain of the same type as the card passed
+ * @param c
+ * @return Chain_Base*
+ * 
+ */
+Chain_Base* Player::createChain(Card* c) {
+    Chain_Base* chain = nullptr;
+    string cType = c->getName();
+
+    if (cType == "Blue") {
+        chain = new Chain<Blue>();
+    } else if (cType == "Chili") {
+        chain = new Chain<Chili>();
+    } else if (cType == "Stink") {
+        chain = new Chain<Stink>();   
+    } else if (cType == "Green") {
+        chain = new Chain<Green>(); 
+    } else if (cType == "soy") {
+        chain = new Chain<soy>(); 
+    } else if (cType == "black") {
+        chain = new Chain<black>(); 
+    } else if (cType == "Red") {
+        chain = new Chain<Red>(); 
+    } else if (cType == "garden") {
+        chain = new Chain<garden>(); 
+    }
+    
+    return chain;
+}
+
+/**
+ * @brief attempts to sell a chain. returns -1 if no chain could be sold, else it returns the index of the sold chain in chains
+ * @return int
+ * TODO: not sure if this should attempt to trade all chains or just the first tradable one. right not it is only trading the first one 
+ */
+int Player::tradeChain() {
+    
+    // iterate through chains
+    for (int i = 0; i < 2 + boughtThirdChain; i++) {
+
+        int valueOfCurrentChain = chains[i]->sell();
+
+        // finds a chain that is able to be sold
+        if (valueOfCurrentChain != 0) {
+            *this += valueOfCurrentChain; // add coins to player
+            chains[i] = nullptr; // delete chain
+            return i; // return index of the now empty chain
+        }
+    }
+
+    // return -1 if no chains were tradable
+    return -1;
 }

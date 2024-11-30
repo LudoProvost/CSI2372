@@ -85,3 +85,7 @@ ostream& operator<<(ostream& out, const TradeArea& ta) {
     }
     return out;
 }
+
+const list<Card*> TradeArea::getCardList() const {
+    return cardList;
+}

@@ -14,10 +14,12 @@ class TradeArea {
         list<Card*> cardList;
     public:
         TradeArea(istream&, const CardFactory*);
+        TradeArea() {};
 
         bool legal(Card* c) const;
         Card* trade(string s);// TODO: make const? Card* trade(const string& s);
         int numCards() const;
+        const list<Card*> getCardList() const;
 
         TradeArea& operator+=(Card* c);
 

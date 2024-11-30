@@ -41,7 +41,7 @@ Chain<T>::Chain(istream& in, const CardFactory* cf) {
  * 
  */
 template <typename T>
-int Chain<T>::sell() {
+int Chain<T>::sell() const {
     T cardType;
     int numCard = getNumCard();
 
@@ -66,11 +66,10 @@ int Chain<T>::sell() {
 /**
  * @brief adds the card passed to the function to the chain
  * @param c
- * @return Chain<T>&
+ * @return Chain_Base&
  * 
  */
-template <typename T>
-Chain<T>& Chain<T>::operator+=(Card* c) {
+Chain_Base& Chain_Base::operator+=(Card* c) {
     
     //TODO: may need an edge case to set type of chain to type of c if chain is empty
 
