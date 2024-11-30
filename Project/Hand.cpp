@@ -93,3 +93,11 @@ ostream& operator<<(ostream& out, const Hand& h) {
     */
 
 }
+
+/**
+ * @brief returns number of cards in hand
+ * @return int
+ */
+int Hand::numberOfCardsInHand() {
+    return cardDeque.size();
+}

@@ -20,6 +20,7 @@ class Hand {
         Hand& operator+=(Card* c);
         Card* operator[](int i);
         const deque<Card*>& getCardDeque() const;
+        int numberOfCardsInHand();
 
         friend ostream& operator<<(ostream& out, const Hand& h);
 };

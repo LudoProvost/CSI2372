@@ -118,20 +118,24 @@ int main() {
 
         // step 4, discard arbitrary card from hand
         //TODO: check if hand is empty first
-        
-        // ask player if they want to repeat discard a card from their hand
-        cout << "Do you want to discard a card from your hand? (y/n)";
-        cin >> response;
 
-        if (response == "y") {
+        if (currentp->handEmpty()) {
+            cout << "Your hand is empty, you have no card to discard.";
+        } else {
 
-            currentp->printHand(cout, true); // show hand
-            cout << "Enter the index of the card you want to discard: ";
-            int idx;
-            cin >> idx;
+            // ask player if they want to repeat discard a card from their hand
+            cout << "Do you want to discard a card from your hand? (y/n)";
+            cin >> response;
 
-            Card* c = currentp->discardCard(idx); // get card and remove from hand
-            *dp += c; // place card on discard pile
+            if (response == "y") {
+                currentp->printHand(cout, true); // show hand
+                cout << "Enter the index of the card you want to discard: ";
+                int idx;
+                cin >> idx;
+
+                Card* c = currentp->discardCard(idx); // get card and remove from hand
+                *dp += c; // place card on discard pile
+            }
         }
 
         // step 5, draw 3 cards for trade area

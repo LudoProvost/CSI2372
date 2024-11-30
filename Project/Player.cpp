@@ -238,6 +238,19 @@ int Player::tradeChain() {
     return -1;
 }
 
+/**
+ * @brief returns and discards the card at index i
+ * @param i
+ * @return Card*
+ */
 Card* Player::discardCard(int i) {
     return (*hand)[i];
+}
+
+/**
+ * @brief returns true if hand is empty
+ * @return bool
+ */
+bool Player::handEmpty() {
+    return (hand->numberOfCardsInHand() == 0);
 }
