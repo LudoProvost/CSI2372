@@ -92,7 +92,7 @@ Chain_Base& Chain_Base::operator+=(Card* c) {
 ostream& operator<<(ostream& out, const Chain_Base& chain) {
 
     // edge case, chain empty
-    if (chain.chain.empty()) { //TODO: FIX, THIS CRASHES FOR SOME REASON
+    if (chain.chain.size() == 0) { //TODO: FIX, THIS CRASHES FOR SOME REASON
         cout << "empty chain";
     } else {
         // print full name and tab

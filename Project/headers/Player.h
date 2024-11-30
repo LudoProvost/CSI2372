@@ -26,7 +26,7 @@ class Player {
         void buyThirdChain();
         void printHand(ostream& out, bool allCards);
         void drawCard(Card* c);
-        void play();
+        bool play();
         Chain_Base* createChain(Card* c);
         int tradeChain();
         Card* discardCard(int i);

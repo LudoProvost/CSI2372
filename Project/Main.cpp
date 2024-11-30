@@ -99,28 +99,32 @@ int main() {
             //TODO: only for debugging, remove before submission
             cout << *currentp;
 
-            currentp->play();
+            int canPlay = currentp->play();
+
+            if (!canPlay) {
+                break;
+            }
 
             // ask player if they want to repeat step 2
             cout << "Do you want to play your top card again? (y/n)";
             string response;
             cin >> response;
-
             if (response == "y") {
                 playTurnAgain = true;
             } else {
                 playTurnAgain = false;
             }
-
         } while (playTurnAgain);
 
         // step 4, discard arbitrary card from hand
-
+        //TODO: check if hand is empty first
+        
         // ask player if they want to repeat discard a card from their hand
         cout << "Do you want to discard a card from your hand? (y/n)";
         cin >> response;
 
         if (response == "y") {
+
             currentp->printHand(cout, true); // show hand
             cout << "Enter the index of the card you want to discard: ";
             int idx;

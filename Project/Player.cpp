@@ -11,12 +11,6 @@ Player::Player(string& n) {
     coins = 0;
     hand = new Hand;
     boughtThirdChain = false;
-
-    //init chain vector
-    for (int i = 0; i < 2 + boughtThirdChain; i++) {
-        Chain_Base* temp = nullptr;
-        chains.push_back(temp);
-    }
 }
 
 //TODO: this function
@@ -57,7 +51,7 @@ int Player::getMaxNumChains() const {
  * 
  */
 int Player::getNumChains() const {
-    return 2 + boughtThirdChain;
+    return chains.size();
 }
 
 /**
@@ -123,7 +117,7 @@ ostream& operator<<(ostream& out, const Player& p) {
 
     // print all of the player's chains
     for (int i = 0; i < p.getNumChains(); i++) {
-        out << (p[i]) << endl;
+        out << p.operator[](i) << endl;
     }
     return out;
 }
@@ -138,17 +132,16 @@ void Player::drawCard(Card* c) {
 }
 
 /**
- * @brief chains the player's top-most card. also attempts to sell all chains
- * 
+ * @brief chains the player's top-most card. also attempts to sell all chains. returns false if player cant play any more card.
+ * @return bool
  */
-void Player::play() {
+bool Player::play() {
     
     //edge case, empty hand
     if (hand->getCardDeque().empty()) {
-        return;
+        return false;
     }
 
-    int emptyChainIdx = -1;
     Card* topCard = hand->top();
 
     // find and add top card to existing chain
@@ -156,33 +149,38 @@ void Player::play() {
 
         auto& chain = chains[i];
 
-        // update emptyChainFound if chain is empty
-        if (chain == nullptr) {
-            emptyChainIdx = i;
-            continue; // go to next chain
-        }
-
         // condition to find compatible chain
         if (topCard->getName() == chain->getChainType()) {
             chain->operator+=(hand->play()); // remove top card from hand using play() and add it to chain
+            return true;
         }
     }
 
-    // condition to check if all chains are used
-    if (emptyChainIdx == -1) {
+    // if all chains are used, attempt to sell one
+    if (chains.size() == getMaxNumChains()) {
         // no chain matching top card found and max number of chains reached
         // attempt to sell a chain 
-        emptyChainIdx = tradeChain(); // will be set to the index of the chain sold (ready to be replaced) or -1 if no tradable chain
+        int idx = tradeChain(); // will be set to the index of the chain sold (ready to be replaced) or -1 if no tradable chain
+
+        if (idx != -1) {
+            auto* newChain = createChain(topCard);
+            newChain->operator+=(hand->play()); // add top card to chain
+            chains[idx] = newChain; // add new chain to chains
+            return true;
+        }
     }
     
     // no chain found, create new chain at empty chain
-    if (emptyChainIdx != -1) {
+    if (chains.size() < getMaxNumChains()) {
         auto* newChain = createChain(topCard);
         newChain->operator+=(hand->play()); // add top card to chain
-        chains[emptyChainIdx] = newChain; // add new chain to chains
+        chains.push_back(newChain); // add new chain to chains
     } else {
-        cout << "could not play top card.";
+        cout << "could not play top card.\n";
+        return false;
     }
+
+    return true;
 }
 
 /**
@@ -231,7 +229,7 @@ int Player::tradeChain() {
         // finds a chain that is able to be sold
         if (valueOfCurrentChain != 0) {
             *this += valueOfCurrentChain; // add coins to player
-            chains[i] = nullptr; // delete chain
+            delete chains[i]; // delete chain
             return i; // return index of the now empty chain
         }
     }
