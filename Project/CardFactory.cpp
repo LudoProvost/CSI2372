@@ -101,5 +101,6 @@ Card* CardFactory::createCard(const string& cardName) const {
         return new Red;
     } else if (cardName == "garden") {
         return new garden;
-    } 
+    }
+    return nullptr;
 }

@@ -1,6 +1,15 @@
 #include "headers/Chain.h"
 using namespace std;
 
+template class Chain<Blue>;
+template class Chain<Chili>;
+template class Chain<Stink>;
+template class Chain<Green>;
+template class Chain<soy>;
+template class Chain<black>;
+template class Chain<Red>;
+template class Chain<garden>;
+
 /**
  * @brief returns number of cards in the chain
  * @return int
@@ -17,16 +26,6 @@ int Chain_Base::getNumCard() const {
  */
 string Chain_Base::getChainType() const {
     return type;
-}
-
-/**
- * @brief constructor for Chain<T> class
- * 
- */
-template <typename T>
-Chain<T>::Chain() {
-    T card; // create card item of type T to get string name of T
-    type = card.getName(); // set type to name of card
 }
 
 //TODO: this function
@@ -47,7 +46,7 @@ int Chain<T>::sell() const {
 
     // find value of chain
     for (int coinNum = 4; coinNum >= 1; coinNum--) {
-        int cardsPerCoin = cardType.getCardsPerCoin(i);
+        int cardsPerCoin = cardType.getCardsPerCoin(coinNum);
 
         // edge case for invalid value of chains, just ignore the iteration
         if (cardsPerCoin == -1) {
@@ -90,14 +89,20 @@ Chain_Base& Chain_Base::operator+=(Card* c) {
  * @return ostream&
  * 
  */
-ostream& operator<<(ostream& out, const Chain<Card*>& chain) {
-    // print full name and tab
-    out << chain.getChainType() << "\t";
+ostream& operator<<(ostream& out, const Chain_Base& chain) {
 
-    // print number of cards
-    int numCard = chain.getNumCard();
-    for (int i = 0; i < numCard; i++) {
-        out << chain.getChainType()[0] << " ";
+    // edge case, chain empty
+    if (chain.chain.empty()) { //TODO: FIX, THIS CRASHES FOR SOME REASON
+        cout << "empty chain";
+    } else {
+        // print full name and tab
+        cout << chain.getChainType() << "\t";
+
+        // print number of cards
+        int numCard = chain.getNumCard();
+        for (int i = 0; i < numCard; i++) {
+            cout << chain.getChainType()[0] << " ";
+        }
     }
     return out;
 }

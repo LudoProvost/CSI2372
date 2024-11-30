@@ -57,7 +57,7 @@ int Player::getMaxNumChains() const {
  * 
  */
 int Player::getNumChains() const {
-    return chains.size();
+    return 2 + boughtThirdChain;
 }
 
 /**
@@ -94,7 +94,7 @@ void Player::printHand(ostream& out, bool allCards) {
  * @return Chain_Base&
  * 
  */
-Chain_Base& Player::operator[](int i) {
+Chain_Base& Player::operator[](int i) const {
     return *(chains.at(i)); // return chain at index i
 }
 
@@ -123,7 +123,7 @@ ostream& operator<<(ostream& out, const Player& p) {
 
     // print all of the player's chains
     for (int i = 0; i < p.getNumChains(); i++) {
-        out << p.chains.at(i) << endl;
+        out << (p[i]) << endl;
     }
     return out;
 }
@@ -152,7 +152,7 @@ void Player::play() {
     Card* topCard = hand->top();
 
     // find and add top card to existing chain
-    for (int i = 0; i < 2 + boughtThirdChain; i++) {
+    for (int i = 0; i < getNumChains(); i++) {
 
         auto& chain = chains[i];
 
@@ -224,7 +224,7 @@ Chain_Base* Player::createChain(Card* c) {
 int Player::tradeChain() {
     
     // iterate through chains
-    for (int i = 0; i < 2 + boughtThirdChain; i++) {
+    for (int i = 0; i < getNumChains(); i++) {
 
         int valueOfCurrentChain = chains[i]->sell();
 
@@ -238,4 +238,8 @@ int Player::tradeChain() {
 
     // return -1 if no chains were tradable
     return -1;
+}
+
+Card* Player::discardCard(int i) {
+    return (*hand)[i];
 }

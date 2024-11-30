@@ -28,9 +28,10 @@ class Player {
         void drawCard(Card* c);
         void play();
         Chain_Base* createChain(Card* c);
-        int tradeChain(); //TODO:
+        int tradeChain();
+        Card* discardCard(int i);
 
-        Chain_Base& operator[](int i);
+        Chain_Base& operator[](int i) const;
         Player& operator+=(int n);
         friend ostream& operator<<(ostream& out, const Player& p);
 };

@@ -22,21 +22,6 @@ Deck::Deck(istream& in, const CardFactory* cf) {
 }
 
 /**
- * @brief copy-constructor for Deck class
- * @param d
- * 
- */
-Deck::Deck(const Deck& d) {
-    // clear this, TODO: may cause mem leak
-    this->clear();
-
-    // copy cards from d to this
-    for (int i = 0; i < d.size(); i++) {
-        this->push_back(new Card(*(d.at(i))));
-    }
-}
-
-/**
  * @brief destructor for Deck class
  * 
  */
@@ -48,27 +33,6 @@ Deck::~Deck() {
     for (it = this->begin(); it != this->end(); it++) {
         delete *it;
     }
-}
-
-/**
- * @brief = operator for Deck class
- * @param d
- * @return Deck&
- */
-Deck& Deck::operator=(const Deck& d) {
-    if (this == &d) {
-        return *this;
-    }
-    
-    // clear this, TODO: may cause mem leak
-    this->clear();
-
-    // copy cards from d to this
-    for (int i = 0; i < d.size(); i++) {
-        this->push_back(new Card(*(d.at(i))));
-    }
-
-    return *this;
 }
 
 /**

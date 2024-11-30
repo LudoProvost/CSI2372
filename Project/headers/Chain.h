@@ -16,36 +16,21 @@ class Chain_Base {
         virtual string getChainType() const;
         Chain_Base& operator+=(Card* c);
         virtual int sell() const = 0;
+        
+        friend ostream& operator<<(ostream& out, const Chain_Base& chain);
 };
 
 template <typename T>
 class Chain : public Chain_Base{
     public:
         Chain() {
-            if (typeid(T) == typeid(Blue)) {
-                type = "Blue";
-            } else if (typeid(T) == typeid(Chili)) {
-                type = "Chili";
-            } else if (typeid(T) == typeid(Stink)) {
-                type = "Stink";
-            } else if (typeid(T) == typeid(Green)) {
-                type = "Green";
-            } else if (typeid(T) == typeid(soy)) {
-                type = "soy";
-            } else if (typeid(T) == typeid(black)) {
-                type = "black";
-            } else if (typeid(T) == typeid(Red)) {
-                type = "Red";
-            } else if (typeid(T) == typeid(garden)) {
-                type = "garden";
-            }
+            T card; // create card item of type T to get string name of T
+            type = card.getName(); // set type to name of card
         }
 
         Chain(istream& in, const CardFactory* cf);
 
         int sell() const;
-
-        friend ostream& operator<<(ostream& out, const Chain<Card*>& chain);
 };
 
 #endif 

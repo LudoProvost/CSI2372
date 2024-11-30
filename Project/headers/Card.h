@@ -10,7 +10,7 @@ class Card {
     public:
         Card(string name) : name(name) {}
         
-        virtual int getCardsPerCoin(int coins);
+        virtual int getCardsPerCoin(int coins) = 0;
         virtual string getName();
         virtual void print(ostream& out);
 

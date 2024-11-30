@@ -24,19 +24,16 @@ int main() {
 
     Player* p1 = new Player(player1Name);
     Player* p2 = new Player(player2Name);
-    Deck* d = new Deck;
     DiscardPile* dp = new DiscardPile;
     TradeArea* ta = new TradeArea;
     CardFactory* cf = CardFactory::getFactory();
-    Table* table = new Table(p1, p2, d, dp, ta, cf);
-
-    // shuffle deck
-    *d = cf->getDeck();
+    Deck d = cf->getDeck();
+    Table* table = new Table(p1, p2, &d, dp, ta, cf);
 
     // draw 5 cards for each player
     for (int i = 0; i < 5; i++) {
-        p1->drawCard(d->draw());
-        p2->drawCard(d->draw());
+        p1->drawCard(d.draw());
+        p2->drawCard(d.draw());
     }
 
     // game loop
@@ -50,23 +47,25 @@ int main() {
             currentp = p2;
         }
         table->changeTurn(); // change turn, next game loop iteration will be player2's turn
+        cout << "------------- Player " << currentp->getName() << " is playing -----------\n\n";
+
 
         // display Table
         cout << *table;
 
         // player draws top card from Deck
-        currentp->drawCard(d->draw());
+        currentp->drawCard(d.draw());
 
         //TODO: only for debugging, remove before submission
         cout << *currentp;
 
         // ask player if they want to trade
-        cout << "Do you want to trade cards from the trade area? (yes/no)";
+        cout << "Do you want to trade cards from the trade area? (y/n)";
         string response;
         cin >> response;
 
         // if player wants to trade, try to find the card they want to trade for and throw an error otherwise
-        if (response == "yes") {
+        if (response == "y") {
             // chain all possible cards in tradearea, discard the rest
             for (Card* c : ta->getCardList()) {
                 bool toDiscard = true;
@@ -103,11 +102,11 @@ int main() {
             currentp->play();
 
             // ask player if they want to repeat step 2
-            cout << "Do you want to play your top card again? (yes/no)";
+            cout << "Do you want to play your top card again? (y/n)";
             string response;
             cin >> response;
 
-            if (response == "yes") {
+            if (response == "y") {
                 playTurnAgain = true;
             } else {
                 playTurnAgain = false;
@@ -116,7 +115,22 @@ int main() {
         } while (playTurnAgain);
 
         // step 4, discard arbitrary card from hand
-        
 
+        // ask player if they want to repeat discard a card from their hand
+        cout << "Do you want to discard a card from your hand? (y/n)";
+        cin >> response;
+
+        if (response == "y") {
+            currentp->printHand(cout, true); // show hand
+            cout << "Enter the index of the card you want to discard: ";
+            int idx;
+            cin >> idx;
+
+            Card* c = currentp->discardCard(idx); // get card and remove from hand
+            *dp += c; // place card on discard pile
+        }
+
+        // step 5, draw 3 cards for trade area
+        //TODO:
     }
 }
