@@ -70,10 +70,12 @@ int Chain<T>::sell() const {
  */
 Chain_Base& Chain_Base::operator+=(Card* c) {
     
-    //TODO: may need an edge case to set type of chain to type of c if chain is empty
+    // set the type of chain to type c if the chain is empty
+    if(chain.empty()){
+        type = c->getName();
+    }
 
     // throw type exception if type of c does not match T
-    //TODO: idk if this needs a return
     if (c->getName() != getChainType()) {
         throw runtime_error("IllegalType");
     }
@@ -92,7 +94,7 @@ Chain_Base& Chain_Base::operator+=(Card* c) {
 ostream& operator<<(ostream& out, const Chain_Base& chain) {
 
     // edge case, chain empty
-    if (chain.chain.size() == 0) { //TODO: FIX, THIS CRASHES FOR SOME REASON
+    if (chain.chain.empty()) { 
         cout << "empty chain";
     } else {
         // print full name and tab

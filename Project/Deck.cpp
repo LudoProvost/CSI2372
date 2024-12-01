@@ -43,6 +43,12 @@ Deck::~Deck() {
  * 
  */
 ostream& operator<<(ostream& out, Deck& d) {
+    /* Alternate method
+    *for (Card* card : d){
+    *out << card->getName() << '\n';
+    *}
+    * return out;
+    */
 
     vector<Card*>::iterator it;
     for (it = d.begin(); it != d.end(); it++) {
