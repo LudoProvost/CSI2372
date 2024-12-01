@@ -1,7 +1,9 @@
 #include "headers/TradeArea.h"
 using namespace std;
 
-//TODO: add comments for this constructor
+/**
+ * @brief Save constructor for TradeArea class
+ */
 TradeArea::TradeArea(istream& in, const CardFactory* cf) {
     string cardType;
 

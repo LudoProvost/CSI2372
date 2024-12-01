@@ -217,7 +217,7 @@ Chain_Base* Player::createChain(Card* c) {
 /**
  * @brief attempts to sell a chain. returns -1 if no chain could be sold, else it returns the index of the sold chain in chains
  * @return int
- * TODO: not sure if this should attempt to trade all chains or just the first tradable one. right not it is only trading the first one 
+ * TODO: not sure if this should attempt to trade all chains or just the first tradable one. right now it is only trading the first one 
  */
 int Player::tradeChain() {
     

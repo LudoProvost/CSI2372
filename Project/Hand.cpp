@@ -2,7 +2,9 @@
 #include "headers/Hand.h"
 using namespace std;
 
-// TODO: add comments for this constructor
+/**
+ * @brief Save constructor for Hand class
+ */
 Hand::Hand(istream& in, const CardFactory* cf) {
     string CardType;
 

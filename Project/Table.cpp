@@ -22,6 +22,9 @@ Table::Table(Player* p1, Player* p2, Deck* d, DiscardPile* dp, TradeArea* ta, Ca
 }
 
 //TODO: this function
+/**
+ * @brief save constructor for Table class
+ */
 Table::Table(istream& in, const CardFactory* cf) {
 
 }
