@@ -8,12 +8,14 @@ using namespace std;
  * 
  */
 void getPlayerNames(string& player1Name, string& player2Name) {
-    cout << "\nenter player 1's name: ";
+    cout << "\nEnter player 1's name: ";
     cin >> player1Name;
-    cout << "enter player 2's name: ";
+    cout << "Enter player 2's name: ";
     cin >> player2Name;
     cout << endl;
 }
+
+// TODO: FINISH DEBUGGING AND GET IT ACTUALLY WORKING
 
 // the current version does not support loading saved files.
 int main() {
@@ -60,7 +62,7 @@ int main() {
         cout << *currentp;
 
         // ask player if they want to trade
-        cout << "Do you want to trade cards from the trade area? (y/n)";
+        cout << "\nDo you want to trade cards from the trade area? (y/n)";
         string response;
         cin >> response;
 
@@ -117,10 +119,8 @@ int main() {
         } while (playTurnAgain);
 
         // step 4, discard arbitrary card from hand
-        //TODO: check if hand is empty first
-
         if (currentp->handEmpty()) {
-            cout << "Your hand is empty, you have no card to discard.";
+            cout << "Your hand is empty, you have no cards to discard.";
         } else {
 
             // ask player if they want to repeat discard a card from their hand
@@ -128,17 +128,124 @@ int main() {
             cin >> response;
 
             if (response == "y") {
-                currentp->printHand(cout, true); // show hand
-                cout << "Enter the index of the card you want to discard: ";
                 int idx;
-                cin >> idx;
+                currentp->printHand(cout, true); // show hand
 
+                while (true){ // check to make sure the user provides an int that is valid 
+                    cout << "Enter the index of the card you want to discard: ";
+                    cin >> idx;
+
+                    // check if the user provides a valid number to avoid an infinite loop
+                    if (cin.fail()) { 
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                        cout << "Invalid input. Please enter a valid number.\n";
+                    }else if (idx < 0 || idx >= currentp->getNumCardsInHand()){
+                        cout << "Invalid number. out of range";
+                    }else {
+                        break; // a valid number in range was provided
+                    }
+                }
+            
                 Card* c = currentp->discardCard(idx); // get card and remove from hand
                 *dp += c; // place card on discard pile
             }
         }
 
-        // step 5, draw 3 cards for trade area
-        //TODO:
+        // step 5, draw 3 cards from the deck and place them in the trade area
+        cout << "Drawing three cards to the Trade area\n";
+        for(int i = 0; i < 3; i++){
+            if(!d.empty()){
+                Card* tradeCard=d.draw();
+                *ta += tradeCard;
+                cout << "Added Card to trade area: " << *tradeCard << "\n";
+            }else {
+                cout << "Deck is empty. Cannot draw more cards\n";
+            }
+        }
+
+        //step 6, player will draw the card from the discard pile as long as it matches a card in the trade area
+        while (!dp->empty()){
+            Card* topDiscard = dp->top();
+            bool matches = false;
+
+            // check if topDiscard matches any card in the trade area
+            for (Card* card: ta->getCardList()) {
+                if (topDiscard->getName() == card->getName()){
+                    matches = true;
+                    break;
+                }
+            }
+
+            if (matches){ // if it matches, the player will pick up the card
+                Card* c = dp->pickUp(); 
+                *ta += c;
+                cout << "Moved card from Discard Pile to Trade Area: " << *c << "\n";
+            }else {
+                break; // exit loop if the top card does not match
+            }
+        }
+
+        // step 7, iterate through the trade area and decide to chain or leave cards
+        if (ta->numCards() > 0) { // make sure trade area is not empty
+            cout << "Iterating through trade area to chain or leave cards\n";
+
+            // Get a copy of the TradeArea's cards to iterate
+            list<Card*> tradeCards = ta->getCardList();
+
+            for (Card* c : tradeCards) {
+                cout << "Do you want to chain card " << *c << "? (y/n): ";
+                string response;
+                cin >> response;
+
+                if (response == "y") {
+                    try {
+                        currentp->addCardToChain(c); // chain the card
+                        cout << "Chained card: " << *c << "\n";
+                        ta->trade(c->getName()); // Remove the card from the trade area
+                    } catch (const exception& e) {
+                        cout << "Cannot chain card: " << *c << ". Discarding.\n";
+                        *dp += c;
+                        ta->trade(c->getName());
+                    }
+                } else {
+                    // do nothing and leave the card in trade area for next player
+                    cout << "Leaving card in Trade Area: " << *c << "\n";
+                }
+            }
+        }
+
+        //step 8, draw two more cards and add them to the players hand 
+        cout << "Drawing two additional card to your hand\n";
+        for (int i=0; i < 2; i++){
+            if(!d.empty()){
+                Card* additionalCard = d.draw();
+                currentp->drawCard(additionalCard);
+                cout << "Added card to hand: " << *additionalCard << "\n";
+            }else{
+                cout << "Deck is empty, no more cards can be drawn \n";
+                break;
+            }
+        }
+
+        cout << "------------- End of " << currentp->getName() << "'s turn -----------\n\n";
+        table->changeTurn();
+
+    
     }
+
+    // TODO: Reach an end stage to see if valid
+    if(winner == "EQUAL"){
+            cout << "The game ended in a tie. \n";
+        }else {
+            cout << "The winner is: " << winner;
+        }
+
+    delete table;
+    delete ta;
+    delete dp;
+    delete p1;
+    delete p2;
+
+    return 0;
 }
