@@ -156,7 +156,8 @@ int main() {
         cout << "Drawing three cards to the Trade area\n";
         for(int i = 0; i < 3; i++){
             if(!d.empty()){
-                Card* tradeCard=d.draw();
+                // draw a card and add it to the trade area
+                Card* tradeCard=d.draw(); 
                 *ta += tradeCard;
                 cout << "Added Card to trade area: " << *tradeCard << "\n";
             }else {
@@ -241,6 +242,7 @@ int main() {
             cout << "The winner is: " << winner;
         }
 
+    // delete all variables to clear from the memory
     delete table;
     delete ta;
     delete dp;
