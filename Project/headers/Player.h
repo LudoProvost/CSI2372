@@ -32,6 +32,9 @@ class Player {
         int tradeChain();
         Card* discardCard(int i);
 
+        void addCardToChain(Card* c); 
+        int getNumCardsInHand() const;
+
         Chain_Base& operator[](int i) const;
         Player& operator+=(int n);
         friend ostream& operator<<(ostream& out, const Player& p);

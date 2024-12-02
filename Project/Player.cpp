@@ -65,7 +65,8 @@ void Player::buyThirdChain() {
         throw runtime_error("NotEnoughCoins");
     }
 
-    boughtThirdChain = true;
+    boughtThirdChain = true; 
+    coins -= 3; 
 }
 
 /**
@@ -230,12 +231,63 @@ int Player::tradeChain() {
         if (valueOfCurrentChain != 0) {
             *this += valueOfCurrentChain; // add coins to player
             delete chains[i]; // delete chain
+            chains.erase(chains.begin() + i); // delete chain from vector
             return i; // return index of the now empty chain
         }
     }
 
     // return -1 if no chains were tradable
     return -1;
+}
+
+/**
+ * @brief attempts to add card c to the players chain
+ * @param c
+ */
+void Player::addCardToChain(Card* c) {
+    // similar to play() but for a specific card 
+    // attempt to add the card to an existing compatible chain
+
+    for (int i = 0; i < getNumChains(); i++) {
+        auto& chain = chains[i];
+
+        if (c->getName() == chain->getChainType()) { 
+            *chain += c; // add the card to the chain if there is an existing chain
+            return; 
+        }
+    }
+
+    // if no compatible chain exists, attempt to create a new one
+    if (chains.size() < getMaxNumChains()) {
+        Chain_Base* newChain = createChain(c); // create new chain matching the type of the card
+        if (newChain) {
+            *newChain += c; // add card to the new chain
+            chains.push_back(newChain);
+            return;
+        } 
+    } else {
+        // if maximum chains reached, attempt to sell an existing chain
+        int idx = tradeChain(); 
+        if (idx != -1) { // try to sell the chain
+            delete chains[idx]; // if sold, remove the sold chain
+            chains.erase(chains.begin() + idx);
+
+            // then, create a new chain with the current card
+            Chain_Base* newChain = createChain(c);
+            if (newChain) {
+                *newChain += c;
+                chains.push_back(newChain);
+                return;
+            } 
+        } 
+    }
+}
+
+/**
+ * @brief returns the number of card in the players hand
+ */
+int Player::getNumCardsInHand() const{
+    return hand->numberOfCardsInHand();
 }
 
 /**
