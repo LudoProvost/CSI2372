@@ -241,7 +241,7 @@ int Player::tradeChain() {
 }
 
 /**
- * @brief attempts to add card c to the players chain
+ * @brief attempts to add card c to the players chain, creates a new chain or sells one if it cant
  * @param c
  */
 void Player::addCardToChain(Card* c) {
