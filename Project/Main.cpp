@@ -41,6 +41,7 @@ int main() {
     // game loop
     string winner;
     Player* currentp;
+    string response;
     while (!table->win(winner)) {
         // set current player and manage turns
         if (table->getTurn()) {
@@ -60,37 +61,55 @@ int main() {
         cout << currentp->getName() << "'s hand: ";
         currentp->printHand(cout, true);
 
-        // ask player if they want to trade
-        cout << "\nDo you want to trade cards from the trade area? (y/n)";
-        string response;
-        cin >> response;
 
-        // if player wants to trade, try to find the card they want to trade for and throw an error otherwise
-        if (response == "y") {
-            // chain all possible cards in tradearea, discard the rest
-            for (Card* c : ta->getCardList()) {
-                bool toDiscard = true;
-                // try all chains of current player
-                for (int i = 0; i < currentp->getNumChains(); i++) {
+        if (ta->numCards() > 0) {
+            // ask player if they want to trade
+            cout << "\nDo you want to trade cards from the trade area? (y/n)";
+            cin >> response;
 
-                    // check if card matches a chain
-                    if (c->getName() == currentp->operator[](i).getChainType()) {
-                        currentp->operator[](i) += c; // add card to matching chain
-                        toDiscard = false;
-                        break;
+            if (response == "y") {
+                
+                list<Card*> tradeCards = ta->getCardList();
+                
+                for (Card* c : tradeCards) {
+                    cout << "Do you want to chain card " << *c << "? (y/n): ";
+                    cin >> response;
+
+                    if (response == "y") {
+                        try {
+                            bool chained = currentp->addCardToChain(c); // chain the card
+                            
+                            if (!chained) {
+                                throw runtime_error("noAvailableChain");
+                            }
+
+                            cout << "Chained card: " << *c << "\n";
+                            ta->trade(c->getName()); // Remove the card from the trade area
+                        } catch (const exception& e) {
+                            cout << "Cannot chain card: " << *c << ". Discarding.\n";
+                            *dp += c;
+                            ta->trade(c->getName());
+                        }
+                    } else {
+                        // do nothing and leave the card in trade area for next player
+                        cout << "Discarding card: " << *c << "\n";
+                        *dp += c;
+                        ta->trade(c->getName());
                     }
+                    cout << *currentp; // print player to see chains
                 }
 
-                // if c is not added to a chain, add it to discard pile 
-                if (toDiscard) {
+            } else {
+                // discard all cards in the trade area
+                for (Card* c: ta->getCardList()) {
+                    cout << "Discarding card: " << *c << "\n";
                     *dp += c;
+                    ta->trade(c->getName());
                 }
             }
+
         } else {
-            // discard all cards in the trade area
-            for (Card* c: ta->getCardList()) {
-                *dp += c;
-            }
+            cout << "Trading Area is empty.\n";
         }
 
         // step 2, play topmost card from Hand, can be repeated
@@ -111,19 +130,23 @@ int main() {
             }
 
             // ask player if they want to repeat step 2
-            cout << "Do you want to play your top card again? (y/n)";
-            string response;
-            cin >> response;
-            if (response == "y") {
-                playTurnAgain = true;
+            if (!currentp->handEmpty()) {
+                cout << "Do you want to play your top card again? (y/n)";
+                cin >> response;
+                if (response == "y") {
+                    playTurnAgain = true;
+                } else {
+                    playTurnAgain = false;
+                }
             } else {
-                playTurnAgain = false;
+                // hand is empty
+                break;
             }
         } while (playTurnAgain);
 
         // step 4, discard arbitrary card from hand
         if (currentp->handEmpty()) {
-            cout << "Your hand is empty, you have no cards to discard.";
+            cout << "Your hand is empty, you have no cards to discard.\n";
         } else {
 
             // ask player if they want to repeat discard a card from their hand
@@ -193,7 +216,9 @@ int main() {
 
         // step 7, iterate through the trade area and decide to chain or leave cards
         if (ta->numCards() > 0) { // make sure trade area is not empty
-            cout << "Iterating through trade area to chain or leave cards\n";
+            //cout << "Iterating through trade area to chain or leave cards\n";
+
+            cout << "Trade Area: " << *ta << endl;
 
             // Get a copy of the TradeArea's cards to iterate
             list<Card*> tradeCards = ta->getCardList();
