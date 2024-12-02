@@ -103,7 +103,7 @@ ostream& operator<<(ostream& out, Table& t) {
     out << "Player 1:\n" << *(t.player1);
     out << "Player 2:\n" << *(t.player2);
     // out << "Deck:\n" << *(t.deck);
-    out << "Discard pile:\n" << *(t.discardPile);
+    out << "Discard pile:" << *(t.discardPile) << "\n";
     out << "Trading area:\n" << *(t.tradeArea);
     return out;
 }
