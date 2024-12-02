@@ -166,7 +166,11 @@ bool Player::play() {
         if (idx != -1) {
             auto* newChain = createChain(topCard);
             newChain->operator+=(hand->play()); // add top card to chain
-            chains[idx] = newChain; // add new chain to chains
+            
+            //chains[idx] = newChain; // add new chain to chains
+            //chains.erase(chains.begin() + idx);
+            chains.push_back(newChain);
+
             return true;
         }
     }
@@ -177,7 +181,7 @@ bool Player::play() {
         newChain->operator+=(hand->play()); // add top card to chain
         chains.push_back(newChain); // add new chain to chains
     } else {
-        cout << "could not play top card.\n";
+        //cout << "could not play top card.\n";
         return false;
     }
 
@@ -216,35 +220,46 @@ Chain_Base* Player::createChain(Card* c) {
 }
 
 /**
- * @brief attempts to sell a chain. returns -1 if no chain could be sold, else it returns the index of the sold chain in chains
+ * @brief   sells a chain for the highest amount of coins.
+ *          This function adds coins to player
  * @return int
- * TODO: not sure if this should attempt to trade all chains or just the first tradable one. right now it is only trading the first one 
+ * 
  */
 int Player::tradeChain() {
     
     // iterate through chains
+    int highestCostIdx = 0;
+    int highestCost = chains[highestCostIdx]->sell();
+
     for (int i = 0; i < getNumChains(); i++) {
 
         int valueOfCurrentChain = chains[i]->sell();
 
         // finds a chain that is able to be sold
-        if (valueOfCurrentChain != 0) {
-            *this += valueOfCurrentChain; // add coins to player
-            delete chains[i]; // delete chain
-            chains.erase(chains.begin() + i); // delete chain from vector
-            return i; // return index of the now empty chain
+        if (valueOfCurrentChain > highestCost) {
+            highestCost = valueOfCurrentChain;
+            highestCostIdx = i;
+        } else if (valueOfCurrentChain == highestCost) {
+            // if both are equal, sell the one with the least amount of cards.
+            if (chains[i]->getNumCard() < chains[highestCostIdx]->getNumCard()) {
+                highestCost = valueOfCurrentChain;
+                highestCostIdx = i;
+            }
         }
     }
 
-    // return -1 if no chains were tradable
-    return -1;
+    *this += highestCost; // add coins to player
+    delete chains[highestCostIdx]; // delete chain
+    chains.erase(chains.begin() + highestCostIdx); // delete chain from vector
+    return highestCostIdx; // return index of the now empty chain
 }
 
 /**
  * @brief attempts to add card c to the players chain, creates a new chain or sells one if it cant
  * @param c
+ * @return bool
  */
-void Player::addCardToChain(Card* c) {
+bool Player::addCardToChain(Card* c) {
     // similar to play() but for a specific card 
     // attempt to add the card to an existing compatible chain
 
@@ -253,7 +268,7 @@ void Player::addCardToChain(Card* c) {
 
         if (c->getName() == chain->getChainType()) { 
             *chain += c; // add the card to the chain if there is an existing chain
-            return; 
+            return true; 
         }
     }
 
@@ -263,24 +278,26 @@ void Player::addCardToChain(Card* c) {
         if (newChain) {
             *newChain += c; // add card to the new chain
             chains.push_back(newChain);
-            return;
+            return true;
         } 
     } else {
         // if maximum chains reached, attempt to sell an existing chain
         int idx = tradeChain(); 
         if (idx != -1) { // try to sell the chain
-            delete chains[idx]; // if sold, remove the sold chain
-            chains.erase(chains.begin() + idx);
+            //delete chains[idx]; // if sold, remove the sold chain
+            //chains.erase(chains.begin() + idx);
 
             // then, create a new chain with the current card
             Chain_Base* newChain = createChain(c);
             if (newChain) {
                 *newChain += c;
                 chains.push_back(newChain);
-                return;
+                return true;
             } 
         } 
     }
+
+    return false;
 }
 
 /**
@@ -305,4 +322,13 @@ Card* Player::discardCard(int i) {
  */
 bool Player::handEmpty() {
     return (hand->numberOfCardsInHand() == 0);
+}
+
+/**
+ * @brief getter for boughtThirdChain
+ * @return bool
+ * 
+ */
+bool Player::getBoughtThirdChain() {
+    return boughtThirdChain;
 }

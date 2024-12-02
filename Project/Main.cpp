@@ -40,15 +40,14 @@ int main() {
 
     // game loop
     string winner;
+    Player* currentp;
     while (!table->win(winner)) {
         // set current player and manage turns
-        Player* currentp;
         if (table->getTurn()) {
             currentp = p1;
         } else {
             currentp = p2;
         }
-        table->changeTurn(); // change turn, next game loop iteration will be player2's turn
         cout << "------------- Player " << currentp->getName() << " is playing -----------\n\n";
 
 
@@ -58,8 +57,8 @@ int main() {
         // player draws top card from Deck
         currentp->drawCard(d.draw());
 
-        //TODO: only for debugging, remove before submission
-        cout << *currentp;
+        cout << currentp->getName() << "'s hand: ";
+        currentp->printHand(cout, true);
 
         // ask player if they want to trade
         cout << "\nDo you want to trade cards from the trade area? (y/n)";
@@ -97,13 +96,17 @@ int main() {
         // step 2, play topmost card from Hand, can be repeated
         bool playTurnAgain = false;
         do {
-            
-            //TODO: only for debugging, remove before submission
-            cout << *currentp;
 
+            cout << "Playing top card...\n";
             int canPlay = currentp->play();
 
+            cout << currentp->getName() << "'s hand: ";
+            currentp->printHand(cout, true);
+
+            cout << *currentp; // print player to see chains
+
             if (!canPlay) {
+                cout << "Couldn't play top card.\n";
                 break;
             }
 
@@ -141,13 +144,14 @@ int main() {
                         cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
                         cout << "Invalid input. Please enter a valid number.\n";
                     }else if (idx < 0 || idx >= currentp->getNumCardsInHand()){
-                        cout << "Invalid number. out of range";
+                        cout << "Invalid number. out of range.\n";
                     }else {
                         break; // a valid number in range was provided
                     }
                 }
             
                 Card* c = currentp->discardCard(idx); // get card and remove from hand
+                cout << currentp->getName() << " discarded: " << *c << endl;
                 *dp += c; // place card on discard pile
             }
         }
@@ -201,18 +205,27 @@ int main() {
 
                 if (response == "y") {
                     try {
-                        currentp->addCardToChain(c); // chain the card
+                        bool chained = currentp->addCardToChain(c); // chain the card
+
+                        if (!chained) {
+                            throw runtime_error("noAvailableChain");
+                        }
+
                         cout << "Chained card: " << *c << "\n";
                         ta->trade(c->getName()); // Remove the card from the trade area
                     } catch (const exception& e) {
-                        cout << "Cannot chain card: " << *c << ". Discarding.\n";
-                        *dp += c;
-                        ta->trade(c->getName());
+                        cout << "Cannot chain card: " << *c << ". Leaving it in Trade Area.\n";
+                        // *dp += c;
+                        // ta->trade(c->getName());
                     }
                 } else {
                     // do nothing and leave the card in trade area for next player
                     cout << "Leaving card in Trade Area: " << *c << "\n";
                 }
+
+
+                cout << *currentp; // print player to see chains
+
             }
         }
 
@@ -224,14 +237,24 @@ int main() {
                 currentp->drawCard(additionalCard);
                 cout << "Added card to hand: " << *additionalCard << "\n";
             }else{
-                cout << "Deck is empty, no more cards can be drawn \n";
+                cout << "Deck is empty, no more cards can be drawn.\n";
                 break;
             }
         }
 
+        // ask player if they want to buy a third chain
+        if (currentp->getNumCoins() >= 3 && !currentp->getBoughtThirdChain()) {
+            cout << "Do you want to buy a third chain? (y/n): ";
+                string response;
+                cin >> response;
+
+                if (response == "y") {
+                    currentp->buyThirdChain();
+                }
+        }
+
         cout << "------------- End of " << currentp->getName() << "'s turn -----------\n\n";
         table->changeTurn();
-
     
     }
 
@@ -239,7 +262,7 @@ int main() {
     if(winner == "EQUAL"){
             cout << "The game ended in a tie. \n";
         }else {
-            cout << "The winner is: " << winner;
+            cout << "The winner is: " << winner << endl;
         }
 
     // delete all variables to clear from the memory

@@ -24,6 +24,7 @@ class Player {
         int getMaxNumChains() const;
         int getNumChains() const;
         void buyThirdChain();
+        bool getBoughtThirdChain();
         void printHand(ostream& out, bool allCards);
         void drawCard(Card* c);
         bool play();
@@ -32,7 +33,7 @@ class Player {
         int tradeChain();
         Card* discardCard(int i);
 
-        void addCardToChain(Card* c); 
+        bool addCardToChain(Card* c); 
         int getNumCardsInHand() const;
 
         Chain_Base& operator[](int i) const;

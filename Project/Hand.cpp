@@ -56,9 +56,16 @@ Hand& Hand::operator+=(Card* c) {
  * 
  */
 Card* Hand::operator[](int i) {
-    Card* c = cardDeque[i]; // save ref of card at index i
+    if (i < 0 || i >= cardDeque.size()) {
+        return nullptr;
+    }
+    
+    auto it = cardDeque.begin();
+    advance(it, i);
 
-    cardDeque.erase(cardDeque.begin()+i); // remove card at index i
+    Card* c = *it; // save ref of card at index i
+
+    cardDeque.erase(it); // remove card at index i
 
     return c;
 }
