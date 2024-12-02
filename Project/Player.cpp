@@ -166,9 +166,7 @@ bool Player::play() {
         if (idx != -1) {
             auto* newChain = createChain(topCard);
             newChain->operator+=(hand->play()); // add top card to chain
-            
-            //chains[idx] = newChain; // add new chain to chains
-            //chains.erase(chains.begin() + idx);
+
             chains.push_back(newChain);
 
             return true;
@@ -288,8 +286,6 @@ bool Player::addCardToChain(Card* c) {
         // if maximum chains reached, attempt to sell an existing chain
         int idx = tradeChain(); 
         if (idx != -1) { // try to sell the chain
-            //delete chains[idx]; // if sold, remove the sold chain
-            //chains.erase(chains.begin() + idx);
 
             // then, create a new chain with the current card
             Chain_Base* newChain = createChain(c);
