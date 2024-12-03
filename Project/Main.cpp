@@ -2,7 +2,7 @@
 using namespace std;
 
 /**
- * @brief sets the names of players passed by reference
+ * @brief Sets the names of players passed by reference.
  * @param player1name
  * @param player2name
  * 
@@ -15,10 +15,12 @@ void getPlayerNames(string& player1Name, string& player2Name) {
     cout << endl;
 }
 
-// TODO: FINISH DEBUGGING AND GET IT ACTUALLY WORKING
+/*
+* The current version of this game does not support loading saved files.
+*/
 
-// the current version does not support loading saved files.
 int main() {
+
     // initial setup:
     string player1Name, player2Name;
 
@@ -32,18 +34,18 @@ int main() {
     Deck d = cf->getDeck();
     Table* table = new Table(p1, p2, &d, dp, ta, cf);
 
-    // draw 5 cards for each player
+    // Draw 5 cards for each player.
     for (int i = 0; i < 5; i++) {
         p1->drawCard(d.draw());
         p2->drawCard(d.draw());
     }
 
-    // game loop
+    // Main game loop
     string winner;
     Player* currentp;
     string response;
     while (!table->win(winner)) {
-        // set current player and manage turns
+        // Set the current player and manage each players turn.
         if (table->getTurn()) {
             currentp = p1;
         } else {
@@ -52,10 +54,10 @@ int main() {
         cout << "------------- Player " << currentp->getName() << " is playing -----------\n\n";
 
 
-        // display Table
+        // Display the table
         cout << *table;
 
-        // player draws top card from Deck
+        // Player draws top card from the deck.
         currentp->drawCard(d.draw());
 
         cout << currentp->getName() << "'s hand: ";
@@ -63,7 +65,8 @@ int main() {
 
 
         if (ta->numCards() > 0) {
-            // ask player if they want to trade
+            
+            // Ask player if they want to trade.
             cout << "\nDo you want to trade cards from the trade area? (y/n)";
             cin >> response;
 
@@ -91,7 +94,7 @@ int main() {
                             ta->trade(c->getName());
                         }
                     } else {
-                        // do nothing and leave the card in trade area for next player
+                        // Do nothing and leave the card in trade area for next player.
                         cout << "Discarding card: " << *c << "\n";
                         *dp += c;
                         ta->trade(c->getName());
@@ -100,7 +103,7 @@ int main() {
                 }
 
             } else {
-                // discard all cards in the trade area
+                // Discard all the cards in the trade area.
                 for (Card* c: ta->getCardList()) {
                     cout << "Discarding card: " << *c << "\n";
                     *dp += c;
@@ -112,7 +115,7 @@ int main() {
             cout << "Trading Area is empty.\n";
         }
 
-        // step 2, play topmost card from Hand, can be repeated
+        // Step 2, play the topmost card from the player's hand. Can be repeated.
         bool playTurnAgain = false;
         do {
 
@@ -129,7 +132,7 @@ int main() {
                 break;
             }
 
-            // ask player if they want to repeat step 2
+            // Ask the player if they want to repeat step 2 and play another card.
             if (!currentp->handEmpty()) {
                 cout << "Do you want to play your top card again? (y/n)";
                 cin >> response;
@@ -139,17 +142,17 @@ int main() {
                     playTurnAgain = false;
                 }
             } else {
-                // hand is empty
+                // The player's hand is empty.
                 break;
             }
         } while (playTurnAgain);
 
-        // step 4, discard arbitrary card from hand
+        // Step 3, discard an arbitrary card from the player's hand.
         if (currentp->handEmpty()) {
             cout << "Your hand is empty, you have no cards to discard.\n";
         } else {
 
-            // ask player if they want to repeat discard a card from their hand
+            // Ask the player if they want to repeat discarding a card from their hand.
             cout << "Do you want to discard a card from your hand? (y/n)";
             cin >> response;
 
@@ -157,11 +160,12 @@ int main() {
                 int idx;
                 currentp->printHand(cout, true); // show hand
 
-                while (true){ // check to make sure the user provides an int that is valid 
+                // Check to make sure that the user provides an input that is a valid int.
+                while (true){ 
                     cout << "Enter the index of the card you want to discard: ";
                     cin >> idx;
 
-                    // check if the user provides a valid number to avoid an infinite loop
+                    // Check if the user provides a valid number to avoid an infinite loop/
                     if (cin.fail()) { 
                         cin.clear();
                         cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
@@ -179,11 +183,12 @@ int main() {
             }
         }
 
-        // step 5, draw 3 cards from the deck and place them in the trade area
+        // Step 4, draw 3 cards from the deck and place them in the trade area.
         cout << "Drawing three cards to the Trade area\n";
         for(int i = 0; i < 3; i++){
+            
             if(!d.empty()){
-                // draw a card and add it to the trade area
+                // Draw a card and add it to the trade area.
                 Card* tradeCard=d.draw(); 
                 *ta += tradeCard;
                 cout << "Added Card to trade area: " << *tradeCard << "\n";
@@ -192,12 +197,12 @@ int main() {
             }
         }
 
-        //step 6, player will draw the card from the discard pile as long as it matches a card in the trade area
+        // Step 5, player will draw the top card from the discard pile as long as it matches a card in the trade area.
         while (!dp->empty()){
             Card* topDiscard = dp->top();
             bool matches = false;
 
-            // check if topDiscard matches any card in the trade area
+            // Check to see if topDiscard matches any card in the trade area.
             for (Card* card: ta->getCardList()) {
                 if (topDiscard->getName() == card->getName()){
                     matches = true;
@@ -205,7 +210,8 @@ int main() {
                 }
             }
 
-            if (matches){ // if it matches, the player will pick up the card
+            // If the card matches, the player will pick up the top card on the discard pile.
+            if (matches){ 
                 Card* c = dp->pickUp(); 
                 *ta += c;
                 cout << "Moved card from Discard Pile to Trade Area: " << *c << "\n";
@@ -214,13 +220,13 @@ int main() {
             }
         }
 
-        // step 7, iterate through the trade area and decide to chain or leave cards
-        if (ta->numCards() > 0) { // make sure trade area is not empty
-            //cout << "Iterating through trade area to chain or leave cards\n";
+        // Step 6, iterate through the trade area and decide to chain or leave cards.
+        // Make sure that the trade area is not empty.
+        if (ta->numCards() > 0) { 
 
             cout << "Trade Area: " << *ta << endl;
 
-            // Get a copy of the TradeArea's cards to iterate
+            // Get a copy of the TradeArea's cards to iterate.
             list<Card*> tradeCards = ta->getCardList();
 
             for (Card* c : tradeCards) {
@@ -237,24 +243,23 @@ int main() {
                         }
 
                         cout << "Chained card: " << *c << "\n";
-                        ta->trade(c->getName()); // Remove the card from the trade area
+                        ta->trade(c->getName()); // Remove the card from the trade area.
                     } catch (const exception& e) {
                         cout << "Cannot chain card: " << *c << ". Leaving it in Trade Area.\n";
                         // *dp += c;
                         // ta->trade(c->getName());
                     }
                 } else {
-                    // do nothing and leave the card in trade area for next player
+                    // Do nothing and leave the card in trade area for next player.
                     cout << "Leaving card in Trade Area: " << *c << "\n";
                 }
 
-
-                cout << *currentp; // print player to see chains
+                cout << *currentp; // print player to see current chains
 
             }
         }
 
-        //step 8, draw two more cards and add them to the players hand 
+        // Step 7, draw two more cards and add them to the player's hand.
         cout << "Drawing two additional card to your hand\n";
         for (int i=0; i < 2; i++){
             if(!d.empty()){
@@ -267,7 +272,7 @@ int main() {
             }
         }
 
-        // ask player if they want to buy a third chain
+        // Ask the player if they want to buy a third chain.
         if (currentp->getNumCoins() >= 3 && !currentp->getBoughtThirdChain()) {
             cout << "Do you want to buy a third chain? (y/n): ";
                 string response;
@@ -290,7 +295,7 @@ int main() {
             cout << "The winner is: " << winner << endl;
         }
 
-    // delete all variables to clear from the memory
+    // Delete all variables to clear from the memory.
     delete table;
     delete ta;
     delete dp;

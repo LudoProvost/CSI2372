@@ -10,8 +10,8 @@ using namespace std;
 
 class DiscardPile: public vector<Card*> {
     public:
-        DiscardPile() : vector<Card*>() {};
-        DiscardPile(istream& in, const CardFactory* cf);
+        DiscardPile() : vector<Card*>() {}; // Constructor
+        DiscardPile(istream& in, const CardFactory* cf); // Istream Constructor
 
         Card* pickUp();
         Card* top();

@@ -2,7 +2,7 @@
 using namespace std;
 
 /**
- * @brief getter for name of card
+ * @brief Getter method to retrieve the name of the card.
  * @return string
  * 
  */
@@ -11,7 +11,7 @@ string Card::getName() {
 }
 
 /**
- * @brief print first letter of name of card
+ * @brief Prints the first letter of the name of the card.
  * @param out
  * 
  */
@@ -20,7 +20,7 @@ void Card::print(ostream& out) {
 }
 
 /**
- * @brief returns number of cards for a given number of coins for Blue cards
+ * @brief Returns the number of cards necessary to receive the given number of coins for Blue cards.
  * @param coins
  * @return int
  * 
@@ -42,7 +42,7 @@ int Blue::getCardsPerCoin(int coins) {
 }
 
 /**
- * @brief returns number of cards for a given number of coins for Chili cards
+ * @brief Returns the number of cards necessary to receive the given number of coins for Chili cards.
  * @param coins
  * @return int
  * 
@@ -64,7 +64,7 @@ int Chili::getCardsPerCoin(int coins) {
 }
 
 /**
- * @brief returns number of cards for a given number of coins for Stink cards
+ * @brief Returns the number of cards necessary to receive the given number of coins for Stink cards.
  * @param coins
  * @return int
  * 
@@ -86,8 +86,8 @@ int Stink::getCardsPerCoin(int coins) {
 }
 
 /**
- * @brief returns number of cards for a given number of coins for Green cards
- * @param coins
+ * @brief Returns the number of cards necessary to receive the given number of coins for Green cards.
+ * @param coin
  * @return int
  * 
  */
@@ -108,7 +108,7 @@ int Green::getCardsPerCoin(int coins) {
 }
 
 /**
- * @brief returns number of cards for a given number of coins for soy cards
+ * @brief Returns the number of cards necessary to receive the given number of coins for soy cards.
  * @param coins
  * @return int
  * 
@@ -130,7 +130,7 @@ int soy::getCardsPerCoin(int coins) {
 }
 
 /**
- * @brief returns number of cards for a given number of coins for black cards
+ * @brief Returns the number of cards necessary to receive the given number of coins for black cards.
  * @param coins
  * @return int
  * 
@@ -152,7 +152,7 @@ int black::getCardsPerCoin(int coins) {
 }
 
 /**
- * @brief returns number of cards for a given number of coins for Red cards
+ * @brief Returns the number of cards necessary to receive the given number of coins for Red cards.
  * @param coins
  * @return int
  * 
@@ -174,7 +174,7 @@ int Red::getCardsPerCoin(int coins) {
 }
 
 /**
- * @brief returns number of cards for a given number of coins for garden cards
+ * @brief Returns the number of cards necessary to receive the given number of coins for garden cards.
  * @param coins
  * @return int
  * 

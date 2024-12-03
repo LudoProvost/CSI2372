@@ -16,9 +16,9 @@ class Table {
         CardFactory* cardFactory;
         bool isPlayer1Turn;
     public:
-        Table(Player* p1, Player* p2, Deck* d, DiscardPile* dp, TradeArea* ta, CardFactory* cf);
-        Table(istream& in, const CardFactory* cf);
-        ~Table();
+        Table(Player* p1, Player* p2, Deck* d, DiscardPile* dp, TradeArea* ta, CardFactory* cf); // Constructor
+        Table(istream& in, const CardFactory* cf); // Istream Constructor
+        ~Table(); // Destructor
         
         bool win(string& playerName);
         bool getTurn();

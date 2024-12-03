@@ -2,7 +2,7 @@
 using namespace std;
 
 /**
- * @brief constructor for Table class
+ * @brief Constructor for the Table class.
  * @param p1
  * @param p2
  * @param d
@@ -21,16 +21,14 @@ Table::Table(Player* p1, Player* p2, Deck* d, DiscardPile* dp, TradeArea* ta, Ca
     isPlayer1Turn = true;
 }
 
-//TODO: this function
+
 /**
- * @brief save constructor for Table class
+ * @brief Istream constructor for the Table class.
  */
-Table::Table(istream& in, const CardFactory* cf) {
-
-}
+Table::Table(istream& in, const CardFactory* cf) {}
 
 /**
- * @brief destructor for Table class
+ * @brief Destructor for the Table class.
  * 
  */
 Table::~Table() {
@@ -42,33 +40,33 @@ Table::~Table() {
 }
 
 /**
- * @brief returns true when a player has won. the name of the winning player is returned by reference
+ * @brief Returns true when a player has won. The name of the winning player is returned by reference.
  * @param playerName
  * @return bool
  * 
  */
 bool Table::win(string& playerName) {
-    // check if game is over
+
+    // Check if the deck is empty which indicates the game is over.
     if (deck->size() > 0) {
         return false;
     }
 
-    // game is over, find winner
+    // The game is over, find the winner through whoever has the most coins.
     int player1Coins = player1->getNumCoins();
     int player2Coins = player2->getNumCoins();
 
-    // edge case, both players have same amount of coins
+    // Edge case, both players have same amount of coins.
     if (player1Coins == player2Coins) {
         playerName = "EQUAL";
     }
 
     playerName = ( player1Coins > player2Coins ? player1->getName() : player2->getName() );
-
     return true;
 }
 
 /**
- * @brief print top card or all cards of player's hand
+ * @brief Print either only the top card or all the cards from the player's hand.
  * @param allPlayers
  * 
  */
@@ -81,7 +79,7 @@ void Table::printHand(bool allPlayers) {
 }
 
 /**
- * @brief getter for Deck
+ * @brief Getter method to retrieve the deck.
  * @return Deck
  * 
  */
@@ -93,7 +91,7 @@ Deck Table::getDeck() {
 }
 
 /**
- * @brief insertion operator to display table
+ * @brief Insertion operator to display table to the output stream.
  * @param out
  * @param t
  * @return ostream&
@@ -109,7 +107,7 @@ ostream& operator<<(ostream& out, Table& t) {
 }
 
 /**
- * @brief returns which player's turn it is. true for player1, false for player2
+ * @brief Returns which player's turn it is. True for player1, false for player2.
  * @return bool
  * 
  */
@@ -118,7 +116,7 @@ bool Table::getTurn() {
 }
 
 /**
- * @brief changes who's turn it is
+ * @brief Changes who's turn it currently is.
  * 
  */
 void Table::changeTurn() {

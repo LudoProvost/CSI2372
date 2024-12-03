@@ -11,7 +11,7 @@ template class Chain<Red>;
 template class Chain<garden>;
 
 /**
- * @brief returns number of cards in the chain
+ * @brief Returns the number of cards in the chain.
  * @return int
  * 
  */
@@ -20,7 +20,7 @@ int Chain_Base::getNumCard() const {
 }
 
 /**
- * @brief returns the type of the chain
+ * @brief Returns the type of the chain.
  * @return string
  * 
  */
@@ -28,14 +28,14 @@ string Chain_Base::getChainType() const {
     return type;
 }
 
-//TODO: this function
+/**
+ * @brief Istream constructor for the Chain class.
+ */
 template <typename T>
-Chain<T>::Chain(istream& in, const CardFactory* cf) {
-
-}
+Chain<T>::Chain(istream& in, const CardFactory* cf) {}
 
 /**
- * @brief counts number of cards in current chain and returns number of coins its worth
+ * @brief Counts the number of cards in the current chain and returns the number of coins it is worth.
  * @return int
  * 
  */
@@ -44,38 +44,39 @@ int Chain<T>::sell() const {
     T cardType;
     int numCard = getNumCard();
 
-    // find value of chain
+    // Find the value of the chain in coins.
     for (int coinNum = 4; coinNum >= 1; coinNum--) {
         int cardsPerCoin = cardType.getCardsPerCoin(coinNum);
 
-        // edge case for invalid value of chains, just ignore the iteration
+        // Edge case for an invalid value of chains. Ignore the iteration and continue.
         if (cardsPerCoin == -1) {
             continue;
         }
         
+        // If the chain is valid to sell, return the numer of coins it is worth.
         if (numCard >= cardsPerCoin) {
             return coinNum;
         }
     }
 
-    // if coinNum wasn't returned in the for loop, the player doesn't have enough cards to get coins.
+    // If coinNum wasn't returned in the for loop, the player did not have enough cards to recieve coins.
     return 0;
 }
 
 /**
- * @brief adds the card passed to the function to the chain
+ * @brief Adds the card passed to the function onto the chain.
  * @param c
  * @return Chain_Base&
  * 
  */
 Chain_Base& Chain_Base::operator+=(Card* c) {
     
-    // set the type of chain to type c if the chain is empty
+    // Set the type of the chain to type 'c' if the chain is empty.
     if(chain.empty()){
         type = c->getName();
     }
 
-    // throw type exception if type of c does not match T
+    // Throw type exception if type of argument 'c' does not match type of the chain.
     if (c->getName() != getChainType()) {
         throw runtime_error("IllegalType");
     }
@@ -85,7 +86,7 @@ Chain_Base& Chain_Base::operator+=(Card* c) {
 }
 
 /**
- * @brief insertion operator to display chain
+ * @brief Insertion operator to display the chain.
  * @param out
  * @param chain
  * @return ostream&
@@ -93,14 +94,14 @@ Chain_Base& Chain_Base::operator+=(Card* c) {
  */
 ostream& operator<<(ostream& out, const Chain_Base& chain) {
 
-    // edge case, chain empty
+    // Edge case, the chain is empty.
     if (chain.chain.empty()) { 
         cout << "empty chain";
     } else {
-        // print full name and tab
+        // Print full name and tab character.
         cout << chain.getChainType() << "\t";
 
-        // print number of cards
+        // Print the first letter of the card for the number of cards in the chain.
         int numCard = chain.getNumCard();
         for (int i = 0; i < numCard; i++) {
             cout << chain.getChainType()[0] << " ";

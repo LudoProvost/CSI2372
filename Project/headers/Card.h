@@ -8,7 +8,7 @@ class Card {
     private: 
         string name;
     public:
-        Card(string name) : name(name) {}
+        Card(string name) : name(name) {} 
         
         virtual int getCardsPerCoin(int coins) = 0;
         virtual string getName();
@@ -20,6 +20,7 @@ class Card {
         }
 };
 
+// Child classes for each bean type that inherit Card as its parent class
 class Blue: public virtual Card {
     public:
         Blue() : Card("Blue") {}

@@ -7,19 +7,18 @@ using namespace std;
 #include "Chain.h"
 #include "Hand.h"
 
-//TODO: this class
 class Player {
     private:
-        std::string name;
+        string name;
         int coins;
         Hand* hand;
         vector<Chain_Base*> chains;
         bool boughtThirdChain;
     public:
-        Player(std::string& n);
-        Player(std::istream& in, const CardFactory* cf);
+        Player(string& n); // Constructor
+        Player(istream& in, const CardFactory* cf); // Istream Constructor
         
-        std::string getName() const;
+        string getName() const;
         int getNumCoins() const;
         int getMaxNumChains() const;
         int getNumChains() const;

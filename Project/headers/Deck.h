@@ -11,9 +11,9 @@ class CardFactory;
 
 class Deck: public vector<Card*> {
     public:
-        Deck() : vector<Card*>() {}; // constructor
-        Deck(istream& in, const CardFactory* cf);  // istream constructor
-        ~Deck(); // destructor
+        Deck() : vector<Card*>() {}; // Constructor
+        Deck(istream& in, const CardFactory* cf);  // Istream Constructor
+        ~Deck(); // Destructor
         
         Card* draw();
                 

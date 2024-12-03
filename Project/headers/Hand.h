@@ -9,10 +9,10 @@ using namespace std;
 
 class Hand {
     private:
-        deque<Card*> cardDeque; // use queue/deque to manage cards in Hand (FIFO)
+        deque<Card*> cardDeque; // Use queue/deque to manage cards in Hand (FIFO)
     public:
-        Hand() {}
-        Hand(istream& in, const CardFactory* cf);
+        Hand() {} // Constructor
+        Hand(istream& in, const CardFactory* cf); // Istream Constructor
 
         Card* play();
         Card* top();

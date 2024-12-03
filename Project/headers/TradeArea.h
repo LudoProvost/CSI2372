@@ -8,16 +8,15 @@ using namespace std;
 #include "CardFactory.h"
 #include "Card.h"
 
-//TODO: this class
 class TradeArea {
     private:
         list<Card*> cardList;
     public:
-        TradeArea(istream&, const CardFactory*);
-        TradeArea() {};
+        TradeArea() {}; // Constructor
+        TradeArea(istream&, const CardFactory*); // Istream Constructor
 
         bool legal(Card* c) const;
-        Card* trade(string s);// TODO: make const? Card* trade(const string& s);
+        Card* trade(string s);
         int numCards() const;
         const list<Card*> getCardList() const;
 
