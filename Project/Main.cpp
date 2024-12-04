@@ -52,10 +52,6 @@ int main() {
             currentp = p2;
         }
         cout << "------------- Player " << currentp->getName() << " is playing -----------\n\n";
-        
-        //REMOVE
-        cout << "The current number of cards still left in the deck is: " << d.getNumCards() << "\n";
-
 
         // Display the table
         cout << *table;
@@ -303,7 +299,6 @@ int main() {
     
     }
 
-    // TODO: Reach an end stage to see if valid
     if(winner == "EQUAL"){
             cout << "The game ended in a tie!" << endl;
         }else {
