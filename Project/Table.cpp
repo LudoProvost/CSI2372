@@ -59,6 +59,7 @@ bool Table::win(string& playerName) {
     // Edge case, both players have same amount of coins.
     if (player1Coins == player2Coins) {
         playerName = "EQUAL";
+        return true;
     }
 
     playerName = ( player1Coins > player2Coins ? player1->getName() : player2->getName() );
@@ -99,10 +100,11 @@ Deck Table::getDeck() {
  */
 ostream& operator<<(ostream& out, Table& t) {
     out << "Player 1:\n" << *(t.player1);
+    out << "\n";
     out << "Player 2:\n" << *(t.player2);
-    // out << "Deck:\n" << *(t.deck);
-    out << "Discard pile:" << *(t.discardPile) << endl;
-    out << "Trading area:\n" << *(t.tradeArea) << endl;
+    out << "\n";
+    out << "Discard pile: " << *(t.discardPile) << endl;
+    out << "Trading area: " << *(t.tradeArea) << endl;
     return out;
 }
 

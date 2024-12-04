@@ -257,8 +257,8 @@ int Player::tradeChain() {
     }
 
     // Print the chain that was sold and for how much.
-    cout << "Sold the following chain for " << highestCost << ": \n";
-    cout << *chains[highestCostIdx];
+    cout << "Sold the following chain for " << highestCost << " coins: ";
+    cout << *chains[highestCostIdx] << "\n";
 
     *this += highestCost; // add coins to player
     delete chains[highestCostIdx]; // delete chain
